@@ -17,7 +17,7 @@ library(ggrepel)
 
 ```
 
-```{r}
+```{r warning=FALSE}
 linkki <- "https://fi.wikipedia.org/wiki/Luettelo_ISO_3166_-standardin_koodeista"
 verkkosivu <- read_html(linkki)
 
@@ -81,8 +81,6 @@ taulukot_lista <- list(maakoodit, vdem)
 
 koko_data <- Reduce(function(x, y) merge(x, y, all=TRUE), taulukot_lista)
 
-koko_data %>% 
-  distinct(nimi_suom)
 
 # Viimestele taulukko visualisointia varten
 oljy_vs_demokratia <- oljy_vs_demokratia %>% 
@@ -96,7 +94,7 @@ oljy_vs_demokratia <- oljy_vs_demokratia %>%
 oljy_vs_demokratia$oljy_litrahinta_usd <- as.double(oljy_vs_demokratia$oljy_litrahinta_usd)
 
 # Valmis visualisointi: bensan hinta vs. demokratia
-oljy_vs_demokratia %>% 
+bensa_demokratia_kuva <- oljy_vs_demokratia %>% 
   ggplot(aes(x = demokratia_indeksi_vdem, y = oljy_litrahinta_usd)) +
   geom_point(color = ifelse(oljy_vs_demokratia$nimi_suom %in% c("Suomi",
                                                                 "Ruotsi",
@@ -114,15 +112,102 @@ oljy_vs_demokratia %>%
     hjust = 0), axis.title = element_text(size = 15),
     plot.title = element_text(size = 19)) +
   labs(title = "Bensiinin litrahinta vs. demokratia", 
-       x = "Demokratia-indeksi (V-Dem) v. 2020", 
+       x = "Demokratia-indeksi, Varieties of Democracy (V-Dem) v. 2020", 
        y = "Bensiinin litrahinta, yhdysvaltain dollaria ($) v. 2021",
        caption = "Lähteet: Statistics Times (bensiinin hinta), Varieties of Democracy (demokratia-indeksi)\nKuva: Eemil Mitikka")
+
+bensa_demokratia_kuva
 
 ```
 
 # Korona-data
 
-```{r}
+```{r warning=FALSE}
+covid <- here("data/owid-covid-data.csv") %>% 
+  read.csv() %>% 
+  rename(country = location)
+
+stringency <- here("data/covid-stringency-index.csv") %>% 
+  read.csv() %>% 
+  rename(country = Entity,
+         date = Day)
+
+# Add mean stringency index to the data
+stringency <- stringency %>% 
+  group_by(country) %>% 
+  mutate(mean_stringency = mean(stringency_index))
+
+covid$date <- as.POSIXct(as.Date(covid$date))
+stringency$date <- as.POSIXct(as.Date(stringency$date))
+
+covid_kuolemat <- covid %>% 
+  select(iso_code, country, date, total_deaths_per_million) %>% 
+  rename("3_kirj_koodi" = iso_code)
+
+
+covid_kuolemat <- merge(covid_kuolemat, maakoodit, by = "3_kirj_koodi")
+covid_lista <- list(covid_kuolemat, stringency)
+
+covid_data <- Reduce(function(x, y) merge(x, y, all=TRUE), covid_lista)
+
+covid_tammi22 <- covid_data %>% 
+  filter(date == "2022-01-01 02:00:00") %>% 
+  na.omit() %>% 
+  select(nimi_suom, total_deaths_per_million, mean_stringency, date) %>% 
+  rename(kuolemia_per_milj = total_deaths_per_million,
+         rajoitusindeksi_ka = mean_stringency,
+         pvm = date)
+
+# Laske globaalit keskiarvot kuolleisuus/miljoonaa ihmistä ja rajoitusindeksille pandemian ajalta
+globaali_kuol_ka <- mean(covid_tammi22$kuolemia_per_milj, na.rm = T)
+globaali_rajoitus_ka <- mean(stringency$mean_stringency)
+
+# Määrittele nuolet kuvaa varten
+nuolet <- data.frame(x1_start = 20,
+                     x1_end = 20,
+                     y1_start = 1802,
+                     y1_end = 1000,
+                     x2_end = 52,
+                     x2_start = 43,
+                     y2_start = 6000,
+                     y2_end = 6000)
+
+korona_kuva <- covid_tammi22 %>% 
+  ggplot(aes(y = kuolemia_per_milj, x = rajoitusindeksi_ka)) +
+  geom_point(color = ifelse(covid_tammi22$nimi_suom %in% c("Suomi",
+                                                           "Ruotsi",
+                                                           "Venäjä",
+                                                           "Viro",
+                                                           "Norja",
+                                                           "Tanska",
+                                                           "Latvia",
+                                                           "Liettua"), "red", "black")) +
+  geom_text_repel(aes(x = rajoitusindeksi_ka,
+                      y = kuolemia_per_milj,
+                      label = nimi_suom)) +
+  geom_hline(yintercept = globaali_kuol_ka, linetype = 4) +
+  geom_vline(xintercept = globaali_rajoitus_ka, linetype = 4) + 
+  theme(plot.caption = element_text(hjust = 0),
+    axis.title = element_text(size = 15),
+    plot.title = element_text(size = 19)) +
+  labs(title = "Koronakuolemat suhteessa rajoituksiin",
+    x = "Koronarajoitusten keskimääräinen vertailuluku pandemian ajalta (viimeiset luvut 8.2.2022)",
+    y = "Koronakuolemat miljoonaa ihmistä kohden (1.1.2022)",
+    caption = "Lähteet: Oxford COVID-19 Government Response Tracker (koronarajoitusten vertailuku), Ritchie ym., 2020 (koronakuolemat)\nDatan koonti: Our World in Data\nKuva: Eemil Mitikka") +
+  annotate("text", x = 20, y = 2000, label = "Koronakuolemat,\nglobaali keskiarvo") +
+  annotate("text", x = 40, y = 6000, label = "Koronarajoitusten\nglobaali keskiarvo") +
+  geom_segment(
+    aes(x = x1_start, y = y1_start, xend = x1_end, yend = y1_end),
+    data = nuolet,
+    arrow = arrow(length = unit(0.03, "npc"))) +
+  geom_segment(
+    aes(x = x2_start, y = y2_start, xend = x2_end, yend = y2_end),
+    data = nuolet,
+    arrow = arrow(length = unit(0.03, "npc"))
+  )
+
+korona_kuva
+
 
 ```
 
