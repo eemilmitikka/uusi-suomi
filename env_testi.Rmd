@@ -1,0 +1,47 @@
+---
+title: "julkaisu"
+author: "Eemil Mitikka"
+date: "2/15/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+if (!require('knitr')) {
+  install.packages("knitr")
+}
+if (!require('devtools')) {
+  install.packages("devtools")
+}
+if (!require('RWordPress')) {
+  devtools::install_github(c("duncantl/XMLRPC", "duncantl/RWordPress"))
+}
+
+library(RWordPress)
+library(rvest)
+
+?RWordPress()
+
+install.packages("dotenv")
+library(dotenv)
+
+load_dot_env()
+
+
+
+```
+
+
+```{r}
+linkki <- "https://puheenvuoro.uusisuomi.fi/wp-admin/my-sites.php"
+sivu <- read_html(linkki)
+
+sivu %>% 
+  html_nodes("xmlrpc") %>% 
+  .[1]
+
+```
+
