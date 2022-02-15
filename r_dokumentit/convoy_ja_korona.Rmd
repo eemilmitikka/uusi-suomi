@@ -1,0 +1,30 @@
+---
+title: "Convoy-liike ja Suomen koronapolitiikka"
+author: "Eemil Mitikka"
+date: "`r format(Sys.Date(), '%d %B, %Y')`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Convoy-liike ja Suomen koronapolitiikka
+
+Olen pitkin pandemiaa ihmetellyt joidenkin suomalaisten suhtautumista ja mielipiteitä Suomen koronapolitiikkaan liittyen. Nyt kun viime viikolla Convoy-liike rantautui tänne Suomeenkin, ajattelin tarkastella Suomen koronapolitiikkaa vähän tarkemmin kansainvälisessä vertailussa. Käyn alla läpi Convoy-liikkeen vaatimukset ja kommentoin näitä.
+
+## 1. Koronarajoitusten poisto
+
+Convoy-mielisten ensimmäinen vaatimus on koronarajoitusten poisto. Ihmettelen tätä vaatimusta, koska
+
+* rajoituksia ollaan jo poistamassa asteittain,
+* Suomessa on koko pandemian ajan ollut lievemmät suhteessa valtaosaan maailman maista (ks. Kuva 1) ja
+* Suomen koronarajoitukset ovat mitä ilmeisemmin toimineet suhteellisen hyvin, koska koronakuolleisuus on ollut Suomessa lähialueen maita matalampaa Norjaa lukuun ottamatta (ks. Kuva 1 ja Taulukko 1).
+
+## 2. Polttoaineveron laskeminen
+
+Bensan kallis kuluttajahinta on ollut Suomessa vakiopuheenaiheena viime aikojen keskustelussa. Ja pitäähän se paikkansa, että bensa on kallista Suomessa, mutta niin se on kaikissa muissakin lähialueen maissa. Ainoana poikkeuksena tähän on Venäjä, joka suurena öljyntuottajana pystyy tarjoamaan halvempia bensan kuluttajahintoja kansalaisilleen. Samaan aikaan myös ihmisoikeudet ja demokratia ovat halpoja Venäjällä, kuten valtaosassa suurista öljyn tuottajamaista (ks. Kuva 2), mikä puolestaan johtuu mm. [resurssikirouksena](https://fi.wikipedia.org/wiki/Luonnonvarojen_kirous) tunnetusta ilmiöstä. Lisäksi Suomen hallituksen polttoaineveropolitiikan sijaan bensan kalliiseen hintaan Suomessa tällä hetkellä vaikuttavat ensisijaisesti öljyn markkinahinnan moninkertaistuminen viime aikoina mm. Venäjän ja Ukrainan välisten geopoliittisen jännitteiden ja laajamittaisemman sodan uhan pelon takia .
+
+
+Toinen kysymys on se, että jos polttoaineen verotusta alennetaan, niin mistä revitään vastaavat verotulot? Katetaanko tämä lovi esim. leikkaamalla sosiaali- ja terveyspalveluista? Lisäämällä muita veroja? Vai näiden yhdistelmällä?
+En myöskään tiedä kuinka tavoiteltavaa matalat polttoaineen hinnat ovat maailmassa, jossa pitäisi siirtyä enenevissä määrin kohti uusiutuvien energiamuotojen käyttöä ja pyrkiä hillitsemään ilmastonmuutosta päästöjä vähentämällä.
