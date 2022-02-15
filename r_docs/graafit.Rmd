@@ -1,13 +1,15 @@
 ---
-title: "Maakoodit suomeksi"
+title: "Uuden Suomen blogin graafit"
 author: "Eemil Mitikka"
-date: "2/14/2022"
+date: "`r format(Sys.Date(), '%d %B, %Y')`"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+# Ohjelmakirjastot
 
 ```{r warning=FALSE, message=FALSE}
 library(tidyverse)
@@ -17,10 +19,14 @@ library(ggrepel)
 
 ```
 
+# Bensan hinta vs. demokratia graafi
+
 ```{r warning=FALSE}
+# Lue linkki
 linkki <- "https://fi.wikipedia.org/wiki/Luettelo_ISO_3166_-standardin_koodeista"
 verkkosivu <- read_html(linkki)
 
+# Tuo maakoodit suomeksi data
 maakoodit <- verkkosivu %>% 
   html_nodes("table") %>% 
   .[1] %>% 
@@ -33,31 +39,33 @@ maakoodit <- verkkosivu %>%
          "num_koodi" = "Numeerinen koodi [2]",
          "aluekoodi" = "Aluekoodi") 
 
+# Muuta englanninkieliset nimet siten, että vain sanan ensimmäinen kirjain iso
 maakoodit$nimi_eng <- str_to_title(maakoodit$nimi_eng)
 
+# Tuo V-Dem data
 vdem <- here("data/vdem_democracy_index") %>% 
   read.csv() %>% 
   rename("3_kirj_koodi" = country_text_id)
 
-# Import the oil price data
+# Bensan hinta data
 link <- "https://statisticstimes.com/economy/countries-by-petrol-prices-and-gdp-per-capita.php"
 webpage <- read_html(link)
-# Read the HTML table
+# Lue HTML taulukko
 oljy_hinnat <- webpage %>% 
   html_nodes("table") %>% 
   .[2] %>% 
   html_table() %>% 
   .[[1]]
-# Remove the first row
+# Poista ensimmäinen rivi
 oljy_hinnat <- oljy_hinnat[-1,]
 
-# Subset the democracy data
+# Poimi tarvittava demokratia-data
 libdem <- vdem %>% 
   filter(year == 2020) %>% 
   select(country_name, "3_kirj_koodi", year, v2x_libdem) %>% 
   rename(Country = country_name)
 
-# Rename some countries
+# Uudelleen nimeä muutama maa
 libdem$Country[libdem$Country == "Burma/Myanmar"] <- "Burma"
 libdem$Country[libdem$Country == "United States of America"] <- "USA"
 libdem$Country[libdem$Country == "Central African Republic"] <- "Central African Rep."
@@ -66,20 +74,17 @@ libdem$Country[libdem$Country == "Trinidad and Tobago"] <- "Trinidad & Tobago"
 libdem$Country[libdem$Country == "Bosnia and Herzegovina"] <- "Bosnia & Herz."
 libdem$Country[libdem$Country == "North Macedonia"] <- "Northern Macedonia"
 
-# Put all data frames into list
+# Taulukot listaksi
 df_list <- list(libdem, oljy_hinnat)
 
-# Merge all data frames in list
+# Yhdistä taulukot
 full_data <- Reduce(function(x, y) merge(x, y, all=TRUE), df_list)
 
+# Taulukot listaksi
 valmis_lista <- list(full_data, maakoodit)
 
+# Yhdistä data 
 oljy_vs_demokratia <- Reduce(function(x, y) merge(x, y, all=TRUE), valmis_lista)
-
-
-taulukot_lista <- list(maakoodit, vdem)
-
-koko_data <- Reduce(function(x, y) merge(x, y, all=TRUE), taulukot_lista)
 
 
 # Viimestele taulukko visualisointia varten
@@ -116,6 +121,7 @@ bensa_demokratia_kuva <- oljy_vs_demokratia %>%
        y = "Bensiinin litrahinta, yhdysvaltain dollaria ($) v. 2021",
        caption = "Lähteet: Statistics Times (bensiinin hinta), Varieties of Democracy (demokratia-indeksi)\nKuva: Eemil Mitikka")
 
+# Tulosta graafi 
 bensa_demokratia_kuva
 
 ```
@@ -207,25 +213,6 @@ korona_kuva <- covid_tammi22 %>%
   )
 
 korona_kuva
-
-
-```
-
-```{r}
-library(RWordPress)
-library(XMLRPC)
-
-if (!require("reshape2")) {
-        install.packages("reshape2", repos = 'http://cran.wu.ac.at/')
-}
-
-library(reshape2)
-
-if (!require("RCurl")) {
-        install.packages("RCurl", repos = 'http://cran.wu.ac.at/')
-}
-
-library(RCurl)
 
 
 ```
