@@ -217,3 +217,54 @@ korona_kuva
 
 ```
 
+```{r}
+# Kuolemat Suomen lähimaissa
+lahi_kuolemat <- covid_tammi22 %>% 
+  select(nimi_suom, kuolemia_per_milj) %>% 
+  filter(nimi_suom %in% c("Suomi",
+                          "Ruotsi",
+                          "Venäjä",
+                          "Viro",
+                          "Norja",
+                          "Tanska",
+                          "Latvia",
+                          "Liettua")) %>% 
+  arrange(desc(kuolemia_per_milj))
+
+# Kuolleisuus maittan Suomen lähimaissa
+lie_kuolemat <- lahi_kuolemat$kuolemia_per_milj[[1]]
+lat_kuolemat <- lahi_kuolemat$kuolemia_per_milj[[2]]
+ven_kuolemat <- lahi_kuolemat$kuolemia_per_milj[[3]]
+ruo_kuolemat <- lahi_kuolemat$kuolemia_per_milj[[4]]
+vir_kuolemat <- lahi_kuolemat$kuolemia_per_milj[[5]]
+tan_kuolemat <- lahi_kuolemat$kuolemia_per_milj[[6]]
+suo_kuolemat <- lahi_kuolemat$kuolemia_per_milj[[7]]
+nor_kuolemat <- lahi_kuolemat$kuolemia_per_milj[[8]]
+                                      
+# Laske suhdeluku Suomeen verrattuna
+suo_suhde <- c(lie_kuolemat / suo_kuolemat,
+               lat_kuolemat / suo_kuolemat,
+               ven_kuolemat / suo_kuolemat,
+               ruo_kuolemat / suo_kuolemat,
+               vir_kuolemat / suo_kuolemat,
+               tan_kuolemat / suo_kuolemat,
+               "",
+               nor_kuolemat / suo_kuolemat)
+
+# Muuta suhdeluku numeeriseksi muuttujaksi
+lahi_kuolemat$suomi_suhdeluku <- as.numeric(suo_suhde)
+
+# Laske pyöristetyt luvut kuolemista ja suhdeluvusta yhden desimaalin tarkkuudella
+lahi_kuolemat$kuolemat_pyor <- round(lahi_kuolemat$kuolemia_per_milj, digits = 1)
+lahi_kuolemat$suomi_suhdeluku_pyor <- round(lahi_kuolemat$suomi_suhdeluku, digits = 1)
+
+# Tulosta taulukko kuolleisuudesta Suomen lähimaissa
+knitr::kable(lahi_kuolemat,
+             col.names = c("Maa",
+                           "Kuolemat/miljoona ihmistä",
+                           "Suhdeluku Suomeen verrattuna",
+                           "Kuolemat/miljoona ihmistä (pyöristetty)",
+                           "Suhdeluku Suomeen verrattuna (pyöristetty)"))
+
+```
+
