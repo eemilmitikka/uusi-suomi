@@ -211,3 +211,22 @@ korona_kuva
 
 ```
 
+```{r}
+library(RWordPress)
+library(XMLRPC)
+
+if (!require("reshape2")) {
+        install.packages("reshape2", repos = 'http://cran.wu.ac.at/')
+}
+
+library(reshape2)
+
+if (!require("RCurl")) {
+        install.packages("RCurl", repos = 'http://cran.wu.ac.at/')
+}
+
+library(RCurl)
+
+
+```
+
