@@ -5,5 +5,5 @@
 *.env
 *cred.env
 
-# CSV
-*.csv
+# Data
+data
