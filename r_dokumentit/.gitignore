@@ -1,0 +1,3 @@
+# Jätä datasetit pois GitHubista
+*.sav
+*.csv
