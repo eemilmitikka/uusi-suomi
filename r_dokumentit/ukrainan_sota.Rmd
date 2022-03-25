@@ -111,7 +111,7 @@ punainen <- "#D37463" # "Ennemmin en tue"
 vihrea <- "#63AEA6" # "Ennemmin tuen"
 
 # Tuo Aleksanteri-instituutti logo visualisointeihin
-img_filepath <- paste(here::here("img/"))
+img_filepath <- paste(here::here("kuvat/"))
 ai_logo_tiedosto <- paste(img_filepath, "ai_logo_uusi_tausta.svg", sep = "")
 logo_ai <- image_read(ai_logo_tiedosto)
 ## Määrittele AI-logo funktio
@@ -135,4 +135,159 @@ prosentit <- function() {
 
 
 ```
+
+
+# Datan tuonti ja putsaus
+
+```{r}
+# Määrittele työhakemisto "data" kansioon
+data_filepath <- paste(here::here("data/"))
+
+# Määrittele tiedostonimet tuotavalle datalle
+vtsiom_25.2.tiedosto <- paste(data_filepath, "База_Спецоперация (25.02).sav", sep = "")
+vtsiom_27.2.tiedosto <- paste(data_filepath, "База_Спецоперация (27.02).sav", sep = "")
+riipp_data_tiedosto <- paste(data_filepath, "survey_fin_with_coded_open.sav", sep = "")
+
+# Tuo data
+vtsiom_25.2. <- read_spss(vtsiom_25.2.tiedosto)
+vtsiom_27.2. <- read_spss(vtsiom_27.2.tiedosto)
+riipp_data <- read_spss(riipp_data_tiedosto)
+
+# Yhdistä VTsIOM data
+sota_molemmat <- merge(vtsiom_25.2., vtsiom_27.2., all = TRUE)
+
+# Suomenna muuttujat
+sota_molemmat <- sota_molemmat %>% 
+  mutate(vastaaja_tunnus = ID,
+         sukupuoli = SEX,
+         ika = AGE,
+         koulutus = EDU,
+         federaatio_piiri = FO,
+         asuinalue_koko = TIP,
+         sota_hyvaksynta = vo4,
+         sota_paamaara = vo5,
+         tv_katselu = TV,
+         internet_kaytto = d1,
+         talous_perhe = DOHOD_0,
+         tyotilanne = PROF1,
+         tyo_organisaatio = PROF2,
+         tyopaikka_sektori = PROF3,
+         otanta_paino = weight1
+  )
+
+# Suomenna muuttujien arvot
+sota_molemmat <- sota_molemmat %>% 
+  mutate(sukupuoli = recode(sukupuoli, '1' = 'Mies', '2' = 'Nainen'),
+         koulutus = recode(koulutus, 
+                           '1' = 'Peruskoulu', 
+                           '2' = 'Kesken oleva keskiasteen koulutus',
+                           '3' = 'Keskiasteen koulutus (lukio tai ammattikoulu)',
+                           '4' = 'Keskiasteen erityiskoulutus (teknikum, college)',
+                           '5' = 'Kesken oleva korkeakoulu (4-vuosikurssi tai ylempi), korkeakoulu',
+                           '6' = 'Kaksi tai useampi korkeakoulututkintoa, akateeminen tutkinto'),
+         federaatio_piiri = recode(federaatio_piiri, 
+                                   '1' = 'Keskinen federaatiopiiri', 
+                                   '2' = 'Luoteinen federaatiopiiri',
+                                   '3' = 'Eteläinen federaatiopiiri',
+                                   '4' = 'Pohjois-Kaukasian federaatiopiiri',
+                                   '5' = 'Volgan federaatiopiiri',
+                                   '6' = 'Uralin federaatiopiiri',
+                                   '7' = 'Siperian federaatiopiiri',
+                                   '8' = 'Kaukoidän federaatiopiiri'),
+         asuinalue_koko = recode(asuinalue_koko, 
+                                 '1' = 'Miljoonakaupunki',
+                                 '2' = '500,000-950,000 asukkaan kaupunki',
+                                 '3' = '100,000-500,000 asukkaan kaupunki',
+                                 '4' = '50,000-100,000 asukkaan kaupunki',
+                                 '5' = 'Alle 50,000 asukkaan kaupunki',
+                                 '6' = 'Kaupungin tapainen taajama',
+                                 '7' = 'Kylä'),
+         sota_hyvaksynta = recode(sota_hyvaksynta,
+                                  '1' = 'Ennemmin tuen',
+                                  '2' = 'Ennemmin en tue',
+                                  '99' = 'En osaa sanoa'),
+         sota_paamaara = recode(sota_paamaara,
+                                '1' = 'Suojella Donetskin ja Luhanskin kansantasavaltojen venäjänkielistä väestöä',
+                                '2' = 'Demilitarisoida Ukraina, turvata Venäjän rajat',
+                                '3' = 'Estää NATOn sotilastukikohtien sijoittaminen Ukrainaan',
+                                '4' = 'Jakaa Ukraina ja vakiinnuttaa Venäjän vaikutus Ukrainaan',
+                                '5' = 'Vaihtaa Venäjälle epäystävällinen poliittinen hallinto',
+                                '6' = 'Muuttaa Ukrainan poliittista kurssia, denatsifikoida Ukraina',
+                                '98' = 'Muu (kuvailkaa)',
+                                '99' = 'En osaa sanoa'),
+         tv_katselu = recode(tv_katselu,
+                             '1' = 'Katson yli neljä tuntia päivittäin',
+                             '2' = 'Katson alle neljä tuntia päivittäin',
+                             '3' = 'Muutaman kerran viikossa',
+                             '4' = 'Muutaman kerran kuukaudessa',
+                             '5' = 'Harvoin, mutta useammin kuin kerran puolessa vuodessa',
+                             '6' = 'En katso televisiota'),
+         internet_kaytto = recode(internet_kaytto,
+                                  '1' = 'Käytän internettiä yli neljä tuntia päivässä',
+                                  '2' = 'Käytän internettiä päivittäin, mutta alle neljä tuntia päivässä',
+                                  '3' = 'Käytän internettiä kerran viikossa',
+                                  '4' = 'Käytän internettiä kerran kuukaudessa',
+                                  '5' = 'Käytän harvoin internettiä, mutta useammin kuin kerran puolessa vuodessa',
+                                  '96' = 'En käytä internettiä'),
+         talous_perhe = recode(talous_perhe,
+                               '1' = 'Erittäin hyvä taloudellinen tilanne',
+                               '2' = 'Hyvä taloudellinen tilanne',
+                               '3' = 'Keskimääräinen taloudellinen tilanne',
+                               '4' = 'Huono taloudellinen tilanne',
+                               '5' = 'Erittäin huono taloudellinen tilanne',
+                               '99' = 'En osaa sanoa'),
+         tyotilanne = recode(tyotilanne,
+                             '1' = 'Työtön eläkeläinen (ml. työkyvyttömyyseläke)',
+                             '2' = 'Työssä käyvä eläkeläinen',
+                             '3' = 'Työtön opiskelija',
+                             '4' = 'Työssäkäyvä opiskelija',
+                             '5' = 'Väliaikaisesti työtön, työtön',
+                             '6' = 'Vanhempainvapaalla, hoitovapaalla',
+                             '7' = 'Palkkatyöläinen',
+                             '8' = 'Yrittäjä, yrityksenomistaja',
+                             '9' = 'Itsensätyöllistäjä',
+                             '99' = 'En osaa sanoa',
+                             '999' = 'Kieltäytyy vastaamasta'),
+         tyo_organisaatio = recode(tyo_organisaatio,
+                                   '1' = 'Yksityinen voittoa tavoitteleva organisaatio',
+                                   '2' = 'Julkinen ja maksuttomia palveluita tarjoava organisaatio',
+                                   '3' = 'Voittoa tavoittelematon yleishyödyllinen järjestö',
+                                   '4' = 'Valtajärjestelmät, hallinto, oikeusjärjestelmä',
+                                   '5' = 'Järjestysvalta, asevoimat, Venäjän hätätilaministeriö',
+                                   '99' = 'Ei osaa sanoa/kieltäytyy vastaamasta'),
+         tyopaikka_sektori = recode(tyopaikka_sektori,
+                                    '1' = 'Teollisuus, tuotanto',
+                                    '2' = 'Maatalous, metsäteollisuus, metsästys, kalastus, kalanviljely',
+                                    '3' = 'Rakentaminen',
+                                    '4' = 'Asunto- ja kunnallistalous',
+                                    '5' = 'Koulutus, tiede',
+                                    '6' = 'Terveydenhuolto',
+                                    '7' = 'Sosiaalipalvelut, sosiaaliturva',
+                                    '8' = 'Kulttuuri, taide, urheilu',
+                                    '9' = 'Vapaa-aika, viihdeteollisuus, turismi',
+                                    '10' = 'Kaupungin- ja kunnallishallinto',
+                                    '11' = 'Järjestysvalta, valtarakenteet, hätätilaministeriö, asepalvelus',
+                                    '12' = 'Media/tiedotusvälineet',
+                                    '13' = 'Informaatioteknologia, tietoliikenne, Internet',
+                                    '14' = 'Kauppa (tukku-, jälleenmyynti-, verkko- ja kiinteistökauppa)',
+                                    '15' = 'Finanssi- ja vakuutustoiminta, pankkipalvelut',
+                                    '16' = 'Kuljetus ja varastointi (materiaalitalous)',
+                                    '17' = 'Ravitsemispalvelut, ravintola- ja matkailuliiketoiiminta',
+                                    '18' = 'Palvelu ja huolto, kuluttajapalvelut',
+                                    '98' = 'Muu, mikä?',
+                                    '99' = 'Ei osaa sanoa', 
+                                    '999' = 'Kieltäytyy vastaamasta'
+                                    )
+         )
+
+
+
+
+# Tee muunna kategoriset muuttujat tekstimuuttujista kategorisiksi
+nimet <- colnames(sota_molemmat[19:29])
+sota_molemmat[,nimet] <- lapply(sota_molemmat[,nimet], factor)
+```
+
+
+
 
