@@ -6,4 +6,5 @@
 *cred.env
 
 # Data
-data
+*.csv
+*.sav
