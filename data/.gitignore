@@ -1,6 +1,0 @@
-# Jätä datasetit pois GitHubista
-*.sav
-*.csv
-
-covid-stringency-index.csv
-owid-covid-data.csv

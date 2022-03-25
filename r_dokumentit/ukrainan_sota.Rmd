@@ -9,4 +9,130 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# Ohjelmakirjastot
+
+```{r}
+library(tidyverse)
+library(haven)
+# library(here)
+# library(rdhs)
+library(labelled)
+library(survey)
+library(extrafont)
+library(magick)
+library(rnaturalearth)
+# library(countrycode)
+# library(ggthemes)
+# install.packages("sf")
+```
+
+
+# Visualisointiteemat ja funktiot
+
+```{r}
+# Määrittele teema graafeille
+theme_meduza <- function() {
+  font <- "Georgia" # assign font family up front
+  theme_minimal() %+replace% # replace elements we want to change
+    
+    theme(
+      # Plot background color
+      plot.background = element_rect(fill = "#EEEDE4"), # background color
+      # Plot grids color
+      panel.grid.major = element_line(colour = "#CCCDC4"),
+      panel.grid.minor = element_line(colour = "#CCCDC4"),
+      # Text elements
+      plot.title = element_text(
+        family = font,
+        size = 18,
+        face = 'bold',
+        hjust = 0,
+        vjust = 2,
+        margin = margin(15,0,0,0)),
+      
+      plot.subtitle = element_text( # title
+                   family = font, # set font family
+                   face = 'bold', # bold typeface
+                   size = 14), # size of the title
+      # Plot caption
+      plot.caption = element_text(
+        family = font,
+        size = 10,
+        face = 'bold',
+        hjust = 1,
+        colour = "#61605A"),
+      # Axis title
+      axis.title = element_text(
+        family = font,
+        size = 12),
+      
+      axis.text = element_text(
+        family = font,
+        face = 'bold',
+        size = 12),
+      
+      axis.text.x = element_text(
+        margin = margin(5, b = 10)),
+      
+      # Legend elements
+      legend.title = element_text(
+        family = font,
+        size = 10,
+        face = "bold"),
+      legend.text = element_text(
+        family = font,
+        size = 8,
+        face = "bold")
+    )
+}
+
+# Määrittele graafeihin kuvatekstit
+## VTsIOM
+caption_vtsiom <- function() {
+  labs(
+  caption = "Lähde: VTsIOM (25.2.–27.2.2022)
+  N = 3200
+  Kuva: Eemil Mitikka"
+  )
+}
+
+## Riippumaton tutkijaryhmä
+caption_riipp <- function() {
+  labs(
+    caption = "Lähde: Riippumaton tutkijaryhmä (28.2.–1.3.2022)
+    N = 1640
+    Kuva: Eemil Mitikka"
+  )
+}
+
+# Määrittele värit graafeihin
+harmaa <- "#9E9E9E" # "En osaa sanoa"
+punainen <- "#D37463" # "Ennemmin en tue"
+vihrea <- "#63AEA6" # "Ennemmin tuen"
+
+# Tuo Aleksanteri-instituutti logo visualisointeihin
+img_filepath <- paste(here::here("img/"))
+ai_logo_tiedosto <- paste(img_filepath, "ai_logo_uusi_tausta.svg", sep = "")
+logo_ai <- image_read(ai_logo_tiedosto)
+## Määrittele AI-logo funktio
+ai_logo <- function() {
+  grid::grid.raster(
+    logo_ai,
+    x = 0.02,
+    y = 0.03,
+    just = c("left", "bottom"), width = unit(0.5, "inches")
+  )
+}
+
+# Määrittele prosentit funktio
+prosentit <- function() {
+  geom_text(aes(
+  label = scales::percent(prosentti, accuracy = 1), vjust = -.5),
+          size = 4, 
+          fontface = "bold",
+          family = "Georgia")
+}
+
+
+```
 
