@@ -288,6 +288,577 @@ nimet <- colnames(sota_molemmat[19:29])
 sota_molemmat[,nimet] <- lapply(sota_molemmat[,nimet], factor)
 ```
 
+# Datan visualisoinnit
+
+## VTsIOMin data
+
+```{r}
+# Määrittele värit 
+harmaa <- "#9E9E9E" # "En osaa sanoa"
+punainen <- "#D37463" # "Ennemmin en tue"
+vihrea <- "#63AEA6" # "Ennemmin tuen"
+
+# Sodan tuki molempien datojen valossa
+sota_tuki <- sota_molemmat %>% 
+  group_by(sota_hyvaksynta) %>% 
+  summarise(n = n()) %>% 
+  mutate(prosentti = n / sum(n)) %>% 
+  ggplot(aes(x = sota_hyvaksynta, y = prosentti, fill = sota_hyvaksynta)) +
+  geom_col() +
+  scale_fill_manual(values = c(harmaa, punainen, vihrea)) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1), breaks = seq(.2, .6, .1)) +
+  labs(title = 'VTsIOM: tuetteko "sotaoperaatiota"?',
+       fill = '"Sotaoperaation"\ntukeminen',
+       y = NULL,
+       x = NULL) +
+  guides(fill = FALSE) + # remove legend
+  prosentit() +
+  caption_vtsiom() +
+  theme_meduza() +
+  theme(axis.text.x = element_text(colour = c(harmaa, punainen, vihrea)))
+## Tallennettu spekseillä Width: 961 ja Heigth 777, tiedostonimi: vtsiom_sodan_kannatus.png
+
+# Laske ikäryhmäkohtainen sodan kannatus
+sota_tuki_vs_ika <- sota_molemmat %>% 
+  select(ika, sota_hyvaksynta) %>% 
+  group_by(ika, sota_hyvaksynta) %>% 
+  summarise(n = n()) %>% 
+  mutate(prosentti_ika = n / sum(n)) %>% 
+  ungroup()
+
+# VTsIOM: iän yhteys sodan kannatukseen
+vtsiom_ika_plot <- sota_tuki_vs_ika %>% 
+  filter(ika <= 75) %>% 
+  ggplot(aes(x = ika, y = prosentti_ika, group = sota_hyvaksynta)) +
+  # geom_point(color = punainen) +
+  geom_smooth(aes(color = sota_hyvaksynta), se = F) +
+  scale_x_continuous(breaks = seq(20, 70, 10)) +
+  theme_meduza() +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1), breaks = seq(.1, .8, .1)) +
+  scale_color_manual(values = c("black", "#D37463", vihrea)) +
+  labs(title = 'VTsIOM: iän yhteys "sotaoperaation" kannatukseen (trendiviivat)',
+       y = 'Prosenttia ikäluokasta (%)',
+       x = "Vastaajan ikä vuosina",
+       color = "Sodan hyväksyntä") +
+  guides(color = guide_legend(reverse=TRUE)) +
+  caption_vtsiom()
+  # theme(legend.title = element_text(face = 'bold'),
+  #       legend.text = element_text(face = 'bold'))
+## Tallennettu spekseillä Width 1068 ja Heigth 841, tiedostonimi "vtsiom_ika_kannatus.png"
+
+# VTSIOM: laske sodan kannatus sukupuolen mukaan
+sota_tuki_vs_sukupuoli <- sota_molemmat %>% 
+  select(sukupuoli, sota_hyvaksynta, ika) %>% 
+  group_by(sukupuoli, ika, sota_hyvaksynta) %>%
+  summarise(n = n()) %>% 
+  mutate(prosentti_ika = n / sum(n)) %>% 
+  ungroup()
+
+# VTSIOM: sodan kannatus iän ja sukupuolen mukaan  
+vtsiom_ika_sukupuoli <- sota_tuki_vs_sukupuoli %>% 
+  filter(ika <= 75) %>% 
+  filter(sota_hyvaksynta == "Ennemmin en tue") %>% 
+  ggplot(aes(x = ika, y = prosentti_ika, group = sukupuoli)) +
+  geom_smooth(aes(color = sukupuoli), se = F) +
+  scale_x_continuous(breaks = seq(20, 70, 10)) +
+  theme_meduza() +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1), breaks = seq(.1, .7, .1)) +
+  guides(color = guide_legend(reverse=TRUE)) +
+  scale_color_manual(values = c("black", vihrea)) +
+  labs(title = 'VTsIOM: sukupuolen ja iän yhteys "sotaoperaation" kannatukseen (trendiviivat)',
+       y = 'Prosenttia miehistä ja naisista ikäluokittain (%)',
+       x = "Vastaajan ikä vuosina",
+       color = '"Ennemmin vastustan"\nsukupuolittain') +
+  caption_vtsiom()
+## Tallennettu spekseillä Width 1068 ja Heigth 841, tiedostonimi: vtsiom_ika_sukupuoli.png
+
+# Luo ikäluokat, TV-katselu, netin käyttö, kaupunkiluokat ja koulutusluokat muuttujat
+sota_molemmat <- sota_molemmat %>% 
+  mutate(ikaluokat =
+             case_when(ika >= 18 & ika <= 30 ~ "18–30-vuotiaat",
+                     ika >= 31 & ika <= 45 ~ "31–45-vuotiaat",
+                     ika >= 46 & ika <= 60 ~ "46–60-vuotiaat",
+                     ika > 60 ~ "Yli 60-vuotiaat")) %>%
+  mutate(tv_luokat =
+           case_when(
+             tv_katselu %in% c("Katson yli neljä tuntia päivittäin", "Katson alle neljä tuntia päivittäin") ~ "Katson päivittäin televisiota", 
+             tv_katselu %in% c("En katso televisiota", "Muutaman kerran viikossa", "Harvoin, mutta useammin kuin kerran puolessa vuodessa", "Muutaman kerran kuukaudessa") ~ "En katso päivittäin televisiota")) %>% 
+  mutate(netti_luokat =
+           case_when(
+             	internet_kaytto %in% c("Käytän internettiä yli neljä tuntia päivässä", "Käytän internettiä päivittäin, mutta alle neljä tuntia päivässä") ~ "Käytän päivittäin Internettiä",
+             	internet_kaytto %in% c("En käytä internettiä", "Käytän internettiä kerran kuukaudessa", "Käytän internettiä kerran viikossa", "Käytän harvoin internettiä, mutta useammin kuin kerran puolessa vuodessa") ~ "En käytä päivittäin Internettiä")) %>% 
+  mutate(kaupunkiluokat =
+             case_when(asuinalue_koko == "Miljoonakaupunki" ~ "Miljoonakaupungit",
+                     asuinalue_koko %in% c("100,000-500,000 asukkaan kaupunki", "500,000-950,000 asukkaan kaupunki")  ~ "Suuret kaupungit",
+                     asuinalue_koko == "50,000-100,000 asukkaan kaupunki" ~ "Keskikokoiset kaupungit",
+                     asuinalue_koko %in% c("Alle 50,000 asukkaan kaupunki", "Kaupungin tapainen taajama", "Kylä") ~ "Pienet kaupungit ja kylät")
+         ) %>% 
+  mutate(koulutusluokat =
+           case_when(koulutus %in% c("Kesken oleva korkeakoulu (4-vuosikurssi tai ylempi), korkeakoulu", "Kaksi tai useampi korkeakoulututkintoa, akateeminen tutkinto") ~ "Korkeakoulututkinto",
+                     TRUE ~ "Ei korkeakoulututkintoa"))
+
+# VTSIOM: Netti ja tuki
+vtsiom_netti_ja_tuki <- sota_molemmat %>% 
+  group_by(ikaluokat, netti_luokat, sota_hyvaksynta) %>% 
+  summarise(n = n()) %>% 
+  mutate(prosentti = n / sum(n))
+
+# VTSIOM: Visualisoi sodan kannatus ikäluokan ja netin kulutuksen mukaan
+vtsiom_netti_vs_kannatus <- ggplot(vtsiom_netti_ja_tuki, aes(fill = sota_hyvaksynta, y = prosentti, x = ikaluokat)) +
+  geom_bar(position = "fill", stat = "identity") +
+  facet_grid(~netti_luokat) +
+  geom_text(aes(label = scales::percent(prosentti, accuracy = 1)),
+            position = position_stack(vjust = 0.5), 
+            fontface = "bold",
+            family = "Georgia") +
+  scale_fill_manual(values = c(harmaa, punainen, vihrea)) + 
+  labs(title = "VTsIOM: Internetin käytön yhteys \"sotaoperaation\" tukemiseen",
+    x = "Ikäluokka", y = "Prosenttia ikäluokasta (%)",
+    fill = '"Sotaoperaation"\ntukeminen') +
+  theme_meduza() +
+  theme(strip.text = element_text(face = "bold.italic",
+                                  size = 15),
+        axis.text.y = element_blank(),
+        axis.text.x = element_text(angle = 30)) +
+  caption_vtsiom() +
+  guides(fill = guide_legend(reverse=TRUE))
+
+# Laske ikäluokkakohtainen sodan kannatus TV:n katselun perusteella
+tv_ja_tuki <- sota_molemmat %>% 
+  group_by(ikaluokat, tv_luokat, sota_hyvaksynta) %>% 
+  summarise(n = n()) %>% 
+  mutate(prosentti = n / sum(n))
+
+# Visualisoi sodan kannatus ikäluokan ja TV:n kulutuksen mukaan
+vtsiom_tv_vs_kannatus <- ggplot(tv_ja_tuki, aes(fill = sota_hyvaksynta, y = prosentti, x = ikaluokat)) +
+  geom_bar(position = "fill", stat = "identity") +
+  facet_grid(~tv_luokat) +
+  geom_text(aes(label = scales::percent(prosentti, accuracy = 1)),
+            position = position_stack(vjust = 0.5), 
+            fontface = "bold",
+            family = "Georgia") +
+  scale_fill_manual(values = c(harmaa, punainen, vihrea)) + 
+  labs(title = "VTsIOM: television katselun yhteys \"sotaoperaation\" tukemiseen",
+    x = "Ikäluokka", y = "Prosenttia ikäluokasta (%)",
+    fill = '"Sotaoperaation"\ntukeminen') +
+  theme_meduza() +
+  theme(strip.text = element_text(face = "bold.italic",
+                                  size = 15),
+        axis.text.y = element_blank(),
+        axis.text.x = element_text(angle = 30)) +
+  caption_vtsiom() +
+  guides(fill = guide_legend(reverse=TRUE))
+
+vtsiom_tv_vs_kannatus
+## Tallennettu spekseillä Width 1068 ja Heigth 841, tiedostonimi: vtsiom_tv_vs_kannatus.png
+
+# Muunna kategorisiksi muuttujiksi
+sota_molemmat$kaupunkiluokat <- as.factor(sota_molemmat$kaupunkiluokat)
+sota_molemmat$ikaluokat <- as.factor(sota_molemmat$ikaluokat)
 
 
+
+data_suom2 <- data_suom2 %>% 
+  mutate(koulutus_luokat = 
+           case_when(
+             koulutus %in% c(1,2,3,4) ~ "Ei korkeakoulututkintoa",
+             koulutus == 5 ~ "Korkeakoulututkinto",
+             koulutus %in% c(6, 7) ~ "NA"
+           ))
+
+# Luo uusi 3-luokkainen summamuuttuja sodan tuelle
+# data_suom2 <- data_suom2 %>% 
+#   mutate(sota_tuki_2luokka = case_when(
+#     sota_tuki %in% c(1, 2) ~ "Tuen",
+#     sota_tuki %in% c(4, 5) ~ "En tue",
+#     sota_tuki %in% c(3, 6) ~ "En osaa sanoa",
+#     sota_tuki == 7 ~ "NA"
+#   ))
+
+# data_suom2 %>% 
+#   mutate(koulutus_luokat =
+#            case_when(
+#              koulutus %in% c(1, 2, 3, 4) ~   
+#            ))
+        
+
+# Asuinalue- ja koulutusdata
+riipp_kaupunki_ja_koulutus <- data_suom2 %>% 
+  group_by(asuinalue_koko, koulutus_luokat, sota_tuki_2luokka) %>% 
+  filter(sota_tuki_2luokka != "NA",
+         koulutus_luokat != "NA",
+         asuinalue_koko != 4) %>% 
+  # filter(koulutus %in% c(1:5)) %>% 
+  summarise(n = n()) %>% 
+  mutate(prosentti = n / sum(n))
+
+riipp_kaupunki_ja_koulutus <- ggplot(riipp_kaupunki_ja_koulutus, aes(fill = sota_tuki_2luokka, y = prosentti, x = asuinalue_koko)) +
+  geom_bar(position = "fill", stat = "identity") +
+  facet_grid(~koulutus_luokat) +
+    geom_text(aes(label = scales::percent(prosentti, accuracy = 1)),
+            position = position_stack(vjust = 0.5), 
+            fontface = "bold",
+            family = "Georgia") +
+  scale_fill_manual(values = c(harmaa, punainen, vihrea)) +
+  scale_x_discrete(limits = c(1,2,3), labels = c("Kaupungit", "Kylä, maaseutu, taajamat", "Kaupungin tapainen\ntaajama")) +
+  labs(title = 'Riippumaton tutkijaryhmä: asuinpaikan ja koulutustason yhteys "sotaoperaation"\ntukemiseen',
+    x = "Asuinalueen luokitus", y = "Prosenttia sotaa tukevista (%)",
+    fill = '"Sotaoperaation"\ntukeminen') +
+  theme_meduza() +
+  theme(strip.text = element_text(face = "bold.italic",
+                                  size = 15),
+        axis.text.y = element_blank(),
+        axis.text.x = element_text(angle = 30)) +
+  caption_riipp() +
+  guides(fill = guide_legend(reverse=TRUE))
+## Tallennettu spekseillä Width 1068 ja Heigth 841, tiedostonimi: riipp_asuinalue_ja_koulutus_vs_kannatus.png
+
+
+
+# VTSIOM: Osita kaupunki data
+vtsiom_kaupunki_ja_koulutus <- sota_molemmat %>% 
+  group_by(kaupunkiluokat, koulutusluokat, sota_hyvaksynta) %>% 
+  summarise(n = n()) %>% 
+  mutate(prosentti = n / sum(n))
+
+# VTSIOM: Visualisoi koulutus ja asuinalue vs. sodan kannatus
+vtsiom_asuinalue_vs_koulutus <- ggplot(vtsiom_kaupunki_ja_koulutus, aes(fill = sota_hyvaksynta, y = prosentti, x = kaupunkiluokat)) +
+  geom_bar(position = "fill", stat = "identity") +
+  facet_grid(~koulutusluokat) +
+  geom_text(aes(label = scales::percent(prosentti, accuracy = 1)),
+            position = position_stack(vjust = 0.5), 
+            fontface = "bold",
+            family = "Georgia") +
+  scale_fill_manual(values = c(harmaa, punainen, vihrea)) +
+  scale_x_discrete(limits = c("Miljoonakaupungit", "Suuret kaupungit", "Keskikokoiset kaupungit", "Pienet kaupungit ja kylät"), labels = c("Miljoona-\nkaupungit", "Suuret\nkaupungit", "Keskikokoiset\nkaupungit", "Pienet kaupungit\nja kylät")) +
+  labs(title = "VTsIOM: asuinpaikan ja koulutustason yhteys \"sotaoperaation\" tukemiseen",
+    x = "Asuinalueen luokitus", y = "Prosenttia sotaa tukevista (%)",
+    fill = '"Sotaoperaation"\ntukeminen') +
+  theme_meduza() +
+  theme(strip.text = element_text(face = "bold.italic",
+                                  size = 15),
+        axis.text.y = element_blank(),
+        axis.text.x = element_text(angle = 30)) +
+  caption_vtsiom() +
+  guides(fill = guide_legend(reverse=TRUE))
+## Tallennettu spekseillä Width 1068 ja Heigth 841, tiedostonimi: vtsiom_asuinalue_ja_koulutus_vs_kannatus.png
+
+```
+
+## Riippumaton data
+
+```{r}
+# Tuo data
+data_suom <- riipp_data %>% 
+  rename(vastaajatunnus = ID,
+         haastattelu_kesto = IVDur,
+         haastattelu_tulos = Result,
+         keskeytys_kysymys = Break_off,
+         vastaaja_reaktio = Q1000,
+         sukupuoli = Q1002,
+         ika = Q1003,
+         asuinalue_koko = Q1006,
+         asuinalue = Q1005,
+         tietoisuus_sota = Q1,
+         sota_tuki = Q4,
+         ukraina_uhka = Q3,
+         sota_lahipiiri_tuki = Q5,
+         ukraina_reaktio = Q6,
+         ukraina_siteet = Q7,
+         sota_voitto = Q8,
+         sota_voitto_muu = Q8_98T,
+         syy_kieltaytya = Q1999,
+         syy_kieltaytya_muu = Q1999_6T,
+         sota_informaatio_ = Q9_1:Q9_99,
+         sotasyy_ = Q2_1:Q2_98T,
+         sota_informaatio_2_kuvaus = Q9_2T,
+         sota_informaatio_3_kuvaus = Q9_3T,
+         sota_informaatio_4_kuvaus = Q9_4T,
+         sota_informaatio_5_kuvaus = Q9_5T,
+         sota_informaatio_6_kuvaus = Q9_6T,
+         sota_informaatio_7_kuvaus = Q9_7T,
+         sota_informaatio_8_kuvaus = Q9_8T,
+         sota_informaatio_9_kuvaus = Q9_9T,
+         sota_informaatio_10_kuvaus = Q9_10T,
+         sota_informaatio_11_kuvaus = Q9_11T,
+         tunnustus_dnr_lnr = Q10,
+         presidentti_kyky = Q11,
+         presidentti_tyytyvaisyys = Q12,
+         presidentti_valtakausi = Q13,
+         perhe_materia_tilanne_mennyt = Q14,
+         perhe_materia_tilanne_tuleva = Q15,
+         venaja_materia_tilanne_tuleva = Q16,
+         koulutus = Q300,
+         tyostatus = Q301,
+         tyosektori = Q302,
+         perhe_asepalvelus = Q303,
+         ei_poikia = Q304_97,
+         poikia_ = Q304_1:Q304_7,
+         poikia_eos = Q304_99,
+         poikia_kieltaytyy = Q304_999,
+         poikia_maara_ = Q304_1N:Q304_7N,
+         talous_pehre = Q305,
+         haastattelija_havainnot = Q306
+         )
+
+
+# Filtteröi vain kyselyyn vastanneet
+data_suom2 <- data_suom %>% 
+  filter(haastattelu_tulos %in% c("Полное"))
+
+# Tällä saadaan oikea paino asetettua
+data_suom2_design <- svydesign(ids =~data_suom2$vastaajatunnus,
+                              data = data_suom2,
+                              weights = data_suom2$weight)
+
+# Painotettu kannatusdata
+tab_w <- svytable(~sota_tuki, design = data_suom2_design) %>%
+  as.data.frame() %>%
+  mutate(prosentti = Freq / sum(Freq))
+
+# Määrittele värit
+riipp_harmaa <- "#9E9E9E" # "En osaa sanoa"
+riipp_punainen <- "#ff0000" # "Ennemmin en tue"
+riipp_vaalean_punainen <- "#ffb700"
+riipp_vihrea <- "#63AEA6" # "Ennemmin tuen"
+riipp_vaalean_vihrea <- "#04ff00"
+musta <- "black"
+keltainen <- "#fbff00"
+
+# Arvot
+arvot <- c("Ehdottomasti\ntuen", "Ennemmin\ntuen", "Osittain tuen,\nosittain en", "Ennemmin\nen tue", "Ehdottomasti\nen tue", "En osaa\nsanoa", "Kieltäytyy\nvastaamasta")
+
+# 
+riipp_likert_kannatus <- ggplot(tab_w, aes(x = sota_tuki, y = prosentti, fill = sota_tuki)) +
+  geom_col() +
+  scale_x_discrete(limits = tab_w$sota_tuki) +
+  # geom_text(aes(label = scales::percent(prosentti, accuracy = 1), vjust = -.6), size = 4) +
+  scale_fill_manual(values = c(riipp_vihrea, riipp_vaalean_vihrea, keltainen, riipp_vaalean_punainen, riipp_punainen, riipp_harmaa, musta)) +
+  scale_x_discrete(labels = arvot) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+  # theme(legend.position = "none") +
+  theme_meduza() +
+  guides(fill = FALSE) +
+  labs(title = 'Riippumaton tutkijaryhmä: Tuetteko "sotaoperaatiota" Ukrainan alueella?',
+       x = NULL, y = NULL) +
+  caption_riipp() +
+  prosentit()
+# ai_logo()
+## Tallennettu spekseillä Width 1068 ja Heigth 841, tiedostonimi: riipp_sodan_kannatus_likert.png
+
+# Luo uusi 3-luokkainen summamuuttuja sodan tuelle
+data_suom2 <- data_suom2 %>% 
+  mutate(sota_tuki_2luokka = case_when(
+    sota_tuki %in% c(1, 2) ~ "Tuen",
+    sota_tuki %in% c(4, 5) ~ "En tue",
+    sota_tuki %in% c(3, 6) ~ "En osaa sanoa",
+    sota_tuki == 7 ~ "NA"
+  ))
+
+# Päivitä paino uuden muuttujan luomisen jälkeen
+data_suom2_design <- svydesign(ids =~data_suom2$vastaajatunnus,
+                              data = data_suom2,
+                              weights = data_suom2$weight)
+
+# Luo painotettu data 3-kolmiluokkaiselle sodan tuelle
+sotatuki_3luokkaa_painotettu <- svytable(~sota_tuki_2luokka, design = data_suom2_design) %>% 
+  as.data.frame() %>% 
+  mutate(prosentti = Freq / sum(Freq))
+
+# Määrittele otsikot visualisointia varten
+arvot_3luokkaa <- c("En osaa\nsanoa", "En tue", "Tuen")
+
+# Visualisoi 3-luokkainen painotettu sodan tuki kuva
+riipp_3luokkaa_kannatus <- sotatuki_3luokkaa_painotettu %>%
+  filter(sota_tuki_2luokka != "NA") %>% 
+  ggplot(aes(x = sota_tuki_2luokka, y = prosentti, fill = sota_tuki_2luokka)) +
+  geom_col() +
+  scale_fill_manual(values = c(harmaa, "#D17466", vihrea)) +
+  scale_x_discrete(labels = arvot_3luokkaa) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1), breaks = c(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7)) +
+  theme_meduza() +
+  theme(axis.text.x = element_text(
+    colour = c(harmaa, "#D17466", vihrea))) +
+  guides(fill = FALSE) +
+  labs(title = 'Riippumaton tutkijaryhmä: Tuetteko "sotaoperaatiota" Ukrainan alueella?',
+       x = NULL, y = NULL) +
+  caption_riipp() +
+  prosentit()
+
+# Luo koulutusluokat muuttuja
+data_suom2 <- data_suom2 %>% 
+  mutate(koulutus_luokat = 
+           case_when(
+             koulutus %in% c(1,2,3,4) ~ "Ei korkeakoulututkintoa",
+             koulutus == 5 ~ "Korkeakoulututkinto",
+             koulutus %in% c(6, 7) ~ "NA"
+           ))
+
+# Asuinalue- ja koulutusdata
+riipp_kaupunki_ja_koulutus <- data_suom2 %>% 
+  group_by(asuinalue_koko, koulutus_luokat, sota_tuki_2luokka) %>% 
+  filter(sota_tuki_2luokka != "NA",
+         koulutus_luokat != "NA",
+         asuinalue_koko != 4) %>% 
+  summarise(n = n()) %>% 
+  mutate(prosentti = n / sum(n))
+
+riipp_kaupunki_ja_koulutus <- ggplot(riipp_kaupunki_ja_koulutus, aes(fill = sota_tuki_2luokka, y = prosentti, x = asuinalue_koko)) +
+  geom_bar(position = "fill", stat = "identity") +
+  facet_grid(~koulutus_luokat) +
+    geom_text(aes(label = scales::percent(prosentti, accuracy = 1)),
+            position = position_stack(vjust = 0.5), 
+            fontface = "bold",
+            family = "Georgia") +
+  scale_fill_manual(values = c(harmaa, punainen, vihrea)) +
+  scale_x_discrete(limits = c(1,2,3), labels = c("Kaupungit", "Kylä, maaseutu, taajamat", "Kaupungin tapainen\ntaajama")) +
+  labs(title = 'Riippumaton tutkijaryhmä: asuinpaikan ja koulutustason yhteys "sotaoperaation"\ntukemiseen',
+    x = "Asuinalueen luokitus", y = "Prosenttia sotaa tukevista (%)",
+    fill = '"Sotaoperaation"\ntukeminen') +
+  theme_meduza() +
+  theme(strip.text = element_text(face = "bold.italic",
+                                  size = 15),
+        axis.text.y = element_blank(),
+        axis.text.x = element_text(angle = 30)) +
+  caption_riipp() +
+  guides(fill = guide_legend(reverse=TRUE))
+## Tallennettu spekseillä Width 1068 ja Heigth 841, tiedostonimi: riipp_asuinalue_ja_koulutus_vs_kannatus.png
+
+# Data iän yhteydestä sodan hyväksyntään
+riipp_sota_tuki_vs_ika <- data_suom2 %>% 
+  select(ika, sota_tuki_2luokka) %>% 
+  filter(sota_tuki_2luokka != "NA") %>% 
+  group_by(ika, sota_tuki_2luokka) %>% 
+  summarise(n = n()) %>% 
+  mutate(prosentti_ika = n / sum (n)) %>% 
+  ungroup()
+
+# Muunna sodan hyväksyntä muuttuja kategoriseksi
+riipp_sota_tuki_vs_ika$sota_tuki_2luokka <- as.factor(riipp_sota_tuki_vs_ika$sota_tuki_2luokka)
+
+# Riippumaton data: visualisoi sodan hyväksyntä suhteessa ikään
+riipp_ika_plot <- riipp_sota_tuki_vs_ika %>% 
+  filter(ika <= 75) %>%
+  ggplot(aes(x = ika, y = prosentti_ika, group = sota_tuki_2luokka)) +
+  geom_smooth(aes(color = sota_tuki_2luokka), se = F) +
+  scale_x_continuous(breaks = seq(20, 70, 10)) +
+  theme_meduza() +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1), breaks = seq(.1, .8, .1)) +
+  scale_color_manual(values = c("black", "#D37463", vihrea)) +
+  labs(title = 'Riippumaton tutkijaryhmä: iän yhteys "sotaoperaation" kannatukseen (trendiviivat)',
+       y = 'Prosenttia ikäluokasta (%)',
+       x = "Vastaajan ikä vuosina",
+       color = '"Sotaoperaation" hyväksyntä') +
+  guides(color = guide_legend(reverse=TRUE)) +
+  caption_riipp()
+## Tallennettu spekseillä Width 1125 ja Heigth 841, tiedostonimi "riipp_ika_kannatus.png"
+
+# Sukupuolen yhteys kannatukseen
+riipp_sota_sukupuoli <- data_suom2 %>% 
+  select(sukupuoli, sota_tuki_2luokka, ika) %>%
+  filter(sota_tuki_2luokka != "NA") %>% 
+  group_by(sukupuoli, ika, sota_tuki_2luokka) %>% 
+  summarise(n = n()) %>% 
+  mutate(prosentti_ika = n / sum(n)) %>% 
+  ungroup()
+
+# Muunna sodan hyväksyntä muuttuja kategoriseksi
+riipp_sota_sukupuoli$sota_tuki_2luokka <- as.factor(riipp_sota_sukupuoli$sota_tuki_2luokka)
+# Anna uudet arvot sukupuoli muuttujille
+riipp_sota_sukupuoli <- riipp_sota_sukupuoli %>% 
+  mutate(sukupuoli = recode(sukupuoli, "1" = "Mies", "2" = "Nainen"))
+
+riipp_sota_ika_sukupuoli <- riipp_sota_sukupuoli %>% 
+  filter(ika <= 75) %>% 
+  filter(sota_tuki_2luokka == "En tue") %>% 
+  ggplot(aes(x = ika, y = prosentti_ika, group = sukupuoli)) +
+  geom_smooth(aes(color = sukupuoli), se = F) +
+  scale_x_continuous(breaks = seq(20, 70, 10)) +
+  theme_meduza() +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1), breaks = seq(.1, .7, .1)) +
+  guides(color = guide_legend(reverse=TRUE)) +
+  scale_color_manual(values = c("black", vihrea)) +
+  labs(title = 'Riippumaton tutkijaryhmä: sukupuolen ja iän yhteys "sotaoperaation" kannatukseen (trendiviivat)',
+       y = 'Prosenttia miehistä ja naisista ikäluokittain (%)',
+       x = "Vastaajan ikä vuosina",
+       color = '"Ennemmin vastustan"\nsukupuolittain') +
+  caption_riipp()
+## Tallennettu spekseillä Width 1125 ja Heigth 841, tiedostonimi: riipp_ika_sukupuoli.png
+
+# Luo ikäluokat muuttuja
+data_suom2 <- data_suom2 %>% 
+  mutate(ikaluokat =
+             case_when(ika >= 18 & ika <= 30 ~ "18–30-vuotiaat",
+                     ika >= 31 & ika <= 45 ~ "31–45-vuotiaat",
+                     ika >= 46 & ika <= 60 ~ "46–60-vuotiaat",
+                     ika > 60 ~ "Yli 60-vuotiaat")
+         )
+
+
+# Laske prosentit netin käytön yhteydestä sodan kannatukselle
+riipp_netti_ja_tuki <- data_suom2 %>% 
+  group_by(ikaluokat, sota_informaatio_3, sota_tuki_2luokka) %>% 
+  filter(sota_tuki_2luokka != "NA") %>% 
+  summarise(n = n()) %>% 
+  mutate(prosentti = n / sum(n))
+
+# Muunna kaksiluokkaiseksi kategoriseksi muuttujaksi
+riipp_netti_ja_tuki$sota_informaatio_3 <- factor(riipp_netti_ja_tuki$sota_informaatio_3, levels = c("0", "1"),
+                                              labels = c("Tietolähde: muu kuin Internet", "Tietolähde: Internet"))
+
+
+# Riippumaton data visualisointi: netti ja ikä vs. sodan kannatus 
+riipp_netti_ja_tuki_plot <- ggplot(riipp_netti_ja_tuki, aes(fill = sota_tuki_2luokka, y = prosentti, x = ikaluokat)) +
+  geom_bar(position = "fill", stat = "identity") +
+  facet_grid(~sota_informaatio_3) +
+  geom_text(aes(label = scales::percent(prosentti, accuracy = 1)),
+            position = position_stack(vjust = 0.5), 
+            fontface = "bold",
+            family = "Georgia") +
+  scale_fill_manual(values = c(harmaa, punainen, vihrea)) + 
+  labs(title = "Riippumaton tutkijaryhmä: Internetin käytön yhteys \"sotaoperaation\" tukemiseen",
+    x = "Ikäluokka", y = "Prosenttia ikäluokasta (%)",
+    fill = '"Sotaoperaation"\ntukeminen') +
+  theme_meduza() +
+  theme(strip.text = element_text(face = "bold.italic",
+                                  size = 15),
+        axis.text.y = element_blank(),
+        axis.text.x = element_text(angle = 30)) +
+  caption_riipp() +
+  guides(fill = guide_legend(reverse=TRUE))
+
+# Luo uusi data TV:n katselun ja sodan kannatuksen yhteydestä
+riipp_tv_ja_tuki <- data_suom2 %>% 
+  group_by(ikaluokat, sota_informaatio_2, sota_tuki_2luokka) %>% 
+  filter(sota_tuki_2luokka != "NA") %>% 
+  summarise(n = n()) %>% 
+  mutate(prosentti = n / sum(n))
+
+# Uudet nimet TV-muuttujan arvoille
+riipp_tv_ja_tuki$sota_informaatio_2 <- factor(riipp_tv_ja_tuki$sota_informaatio_2, levels = c("0", "1"),
+                                              labels = c("Tietolähde: muu kuin televisio", "Tietolähde: televisio"))
+
+
+# Riippumaton data visualisointi: TV ja ikä vs. sodan kannatus 
+riipp_tv_ja_tuki_plot <- ggplot(riipp_tv_ja_tuki, aes(fill = sota_tuki_2luokka, y = prosentti, x = ikaluokat)) +
+  geom_bar(position = "fill", stat = "identity") +
+  facet_grid(~sota_informaatio_2) +
+  geom_text(aes(label = scales::percent(prosentti, accuracy = 1)),
+            position = position_stack(vjust = 0.5), 
+            fontface = "bold",
+            family = "Georgia") +
+  scale_fill_manual(values = c(harmaa, punainen, vihrea)) + 
+  labs(title = "Riippumaton tutkijaryhmä: television katselun yhteys \"sotaoperaation\" tukemiseen",
+    x = "Ikäluokka", y = "Prosenttia ikäluokasta (%)",
+    fill = '"Sotaoperaation"\ntukeminen') +
+  theme_meduza() +
+  theme(strip.text = element_text(face = "bold.italic",
+                                  size = 15),
+        axis.text.y = element_blank(),
+        axis.text.x = element_text(angle = 30)) +
+  caption_riipp() +
+  guides(fill = guide_legend(reverse=TRUE))
+## Tallennettu spekseillä Width 1068 ja Heigth 841, tiedostonimi: riipp_tv_vs_tuki.png
+
+```
 
