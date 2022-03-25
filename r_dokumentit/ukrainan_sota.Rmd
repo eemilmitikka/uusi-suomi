@@ -862,3 +862,182 @@ riipp_tv_ja_tuki_plot <- ggplot(riipp_tv_ja_tuki, aes(fill = sota_tuki_2luokka, 
 
 ```
 
+# Riippumaton data: karttavisualisointi
+
+```{r}
+russia <- ne_states(country = "russia", returnclass = "sf")
+
+# # Helpottaa rivinumeroiden etsimisessä
+# venaja <- as.data.frame(russia)
+# row.names(venaja) <- NULL
+# 
+# # Määrittele puuttuvat federaatiopiiri vektorit
+# pohjois_kaukasia <- c("Dagestan", "Ingush", "Kabardin-Balkar", "Karachay-Cherkess", "North Ossetia", "Chechnya", "Stavropol'")
+# etela <- c("Adygey", "Kalmyk", "Crimea", "Krasnodar", "Astrakhan'", "Volgograd", "Rostov", "Sevastopol")
+# 
+# # Etsi em. vektoreiden perusteella oikeat rivinumerot
+# venaja[venaja$name %in% pohjois_kaukasia, ]
+# venaja[venaja$name %in% etela, ]
+
+# Nimeä federaatiopiirit uudelleen rivinumeroiden perusteella
+russia[4, "region"] <- "North Caucasian" # Karachay-Cherkess
+russia[5, "region"] <- "North Caucasian" # Kabardin-Balkar
+russia[6, "region"] <- "North Caucasian" # Norh Ossetia
+russia[7, "region"] <- "North Caucasian" # Ingush
+russia[8, "region"] <- "North Caucasian" # Chechnya
+russia[9, "region"] <- "North Caucasian" # Dagestan
+russia[85, "region"] <- "North Caucasian" # Stavropol
+russia[3, "region"] <- "Southern" # Krasnodar
+russia[19, "region"] <- "Southern" # Rostov
+russia[35, "region"] <- "Southern" # Astrakhan
+russia[36, "region"] <- "Southern" # Volgograd
+russia[37, "region"] <- "Southern" # Crimea
+russia[40, "region"] <- "Southern" # Sevastopol
+russia[48, "region"] <- "Southern" # Kalmuk
+russia[86, "region"] <- "Southern" # Adugey
+
+# Uudelleen nimeä alueet karttadataa vastaaviksi
+data_suom2 <- data_suom2 %>% 
+  mutate(asuinalue = recode(asuinalue,
+         '1' = 'Adygey',
+         '2' = 'Altay',
+         '3' = 'Bashkortostan',
+         '4' = 'Buryat',
+         '5' = 'Dagestan',
+         '6' = 'Ingush',
+         '7' = 'Kabardin-Balkar',
+         '8' = 'Kalmyk',
+         '9' = 'Karachay-Cherkess',
+         '10' = 'Karelia',
+         '11' = 'Komi',
+         '12' = 'Mariy-El',
+         '13' = 'Mordovia',
+         '14' = 'Sakha (Yakutia)',
+         '15' = 'North Ossetia',
+         '16' = 'Tatarstan',
+         '17' = 'Tuva',
+         '18' = 'Udmurt',
+         '19' = "Khakass",
+         "20" = "Chechnya",
+         "21" = "Chuvash",
+         "22" = "Altay",
+         "23" = "Krasnodar",
+         "24" = "Krasnoyarsk",
+         "25" = "Primor'ye",
+         "26" = "Stavropol'",
+         "27" = "Khabarovsk",
+         "28" = "Amur",
+         "29" = "Arkhangel'sk",
+         "30" = "Astrakhan'",
+         "31" = "Belgorod",
+         "32" = "Bryansk",
+         "33" = "Vladimir",
+         "34" = "Volgograd",
+         "35" = "Vologda",
+         "36" = "Voronezh",
+         "37" = "Ivanovo",
+         "38" = "Irkutsk",
+         "39" = "Kaliningrad",
+         "40" = "Kaluga",
+         "42" = "Kemerovo",
+         "43" = "Kirov",
+         "44" = "Kostroma",
+         "45" = "Kurgan",
+         "46" = "Kursk",
+         "47" = "Leningrad",
+         "48" = "Lipetsk",
+         "49" = "Maga Buryatdan",
+         "50" = "Moskovsskaya",
+         "51" = "Murmansk",
+         "52" = "Nizhegorod",
+         "53" = "Novgorod",
+         "54" = "Novosibirsk",
+         "55" = "Omsk",
+         "56" = "Orenburg",
+         "57" = "Orel", # Tämä ehkä joku muu?
+         "58" = "Penza",
+         "60" = "Pskov",
+         "61" = "Rostov",
+         "62" = "Ryazan'",
+         "63" = "Samara",
+         "64" = "Saratov",
+         "65" = "Sakhalin",
+         "66" = "Sverdlovsk",
+         "67" = "Smolensk",
+         "68" = "Tambov",
+         "69" = "Tver'",
+         "70" = "Tomsk",
+         "71" = "Tula",
+         "72" = "Tyumen'",
+         "73" = "Ul'yanovsk",
+         "74" = "Chelyabinsk",
+         "76" = "Yaroslavl'",
+         "77" = "Moskva",
+         "78" = "City of St. Petersburg",
+         "79" = "Yevrey",
+         "83" = "Nenets",
+         "86" = "Khanty-Mansiy",
+         "87" = "Chukchi Autonomous Okrug",
+         "89" = "Yamal-Nenets",
+         "90" = "Perm'",
+         "91" = "Kamchatka",
+         "92" = "Chita", # Selvitä tämä! Ei nyt oikea
+         "93" = "Crimea",
+         "94" = "Sevastopol",
+         "100" = "Other, what exactly:",
+         "101" = "Refuse to say"))
+
+# Filtteröi pois "En osaa sanoa" ja "Kieltäytyy vastaamasta"
+data_suom2 <- data_suom2 %>% 
+  filter(sota_tuki < 6) %>% 
+  mutate(sota_tuki_na.rm = sota_tuki)
+
+# Aseta paino
+data_suom2_design <- svydesign(ids =~data_suom2$vastaajatunnus,
+                              data = data_suom2,
+                              weights = data_suom2$weight)
+
+# Laske painotetut keskiarvot sodan tuelle alueittain
+kartta_data_painotettu <- svyby(~sota_tuki_na.rm, # filtteröity tukidata
+                                ~asuinalue, # asuinalue
+                                data_suom2_design, # painot
+                                svymean, # menetelmä (keskiarvo)
+                                na.rm = TRUE) # poista puuttuvat arvot
+
+# Käännä muuttuja siten, että isompi arvo tarkoittaa isompaa tukea
+kartta_data_painotettu$sota_tuki_na.rm <- max(kartta_data_painotettu$sota_tuki_na.rm)-kartta_data_painotettu$sota_tuki_na.rm
+
+# Muuttujan vaihteluväli 0-1, jossa 0 = minimi ja 1 = maksimi 
+kartta_data_painotettu$sota_tuki_na.rm <- kartta_data_painotettu$sota_tuki_na.rm/4
+
+# Luo samanniminen muuttuja kuin rnaturalearthin karttadatassa
+kartta_data_painotettu$name <- kartta_data_painotettu$asuinalue
+
+# Yhdistä painotettu karttadata rnaturalearthin karttadataan
+kartta_graafi_painotettu <- merge(russia, kartta_data_painotettu, by.x = "name", by.y = "name", all = TRUE)
+
+# Visualisoi kannatusdata
+kartta_kuva_painotettu <- kartta_graafi_painotettu %>% 
+  ggplot(aes(geometry = geometry, fill = sota_tuki_na.rm)) +
+  geom_sf() +
+  xlim(15, 190) +
+  ylim(40, 83) +
+  theme_meduza() +
+  labs(fill = "Sodan tuki-indeksi") +
+  scale_fill_viridis_c() +
+  theme(axis.text.y = element_blank(),
+        axis.text.x = element_blank(),
+        legend.text = element_text(face = "bold"),
+        legend.title = element_text(face = "bold"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank()
+        ) +
+  labs(title = "Riippumaton tutkijaryhmä: \"sotaoperaation\" tuki alueittain Venäjällä",
+    caption = "Lähde: riippumaton tutkijaryhmä (28.2.–1.3.2022)
+N=1640
+Kuva: Eemil Mitikka")
+# Tallenna kuva:
+## Width: 987 ja Heigth: 816
+
+```
+
