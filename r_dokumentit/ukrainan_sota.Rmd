@@ -133,7 +133,17 @@ prosentit <- function() {
           family = "Georgia")
 }
 
+# Määrittele kuvan tallennus funktio
+kuva <- function() {
+  png(
+    filename = readline("")
+    width = 1068,
+    height = 841,
+    res = 85
+  )
+}
 
+?png
 ```
 
 
@@ -522,7 +532,8 @@ vtsiom_kaupunki_ja_koulutus <- sota_molemmat %>%
   mutate(prosentti = n / sum(n))
 
 # VTSIOM: Visualisoi koulutus ja asuinalue vs. sodan kannatus
-vtsiom_asuinalue_vs_koulutus <- ggplot(vtsiom_kaupunki_ja_koulutus, aes(fill = sota_hyvaksynta, y = prosentti, x = kaupunkiluokat)) +
+kuva("vtsiom_asuinalue_ja_koulutus_vs_kannatus.png")
+  ggplot(vtsiom_kaupunki_ja_koulutus, aes(fill = sota_hyvaksynta, y = prosentti, x = kaupunkiluokat)) +
   geom_bar(position = "fill", stat = "identity") +
   facet_grid(~koulutusluokat) +
   geom_text(aes(label = scales::percent(prosentti, accuracy = 1)),
@@ -541,6 +552,8 @@ vtsiom_asuinalue_vs_koulutus <- ggplot(vtsiom_kaupunki_ja_koulutus, aes(fill = s
         axis.text.x = element_text(angle = 30)) +
   caption_vtsiom() +
   guides(fill = guide_legend(reverse=TRUE))
+  ai_logo()
+dev.off()
 ## Tallennettu spekseillä Width 1068 ja Heigth 841, tiedostonimi: vtsiom_asuinalue_ja_koulutus_vs_kannatus.png
 
 ```
