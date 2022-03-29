@@ -31,7 +31,7 @@ Kuvassa 1 on nähtävillä tarkat prosentit vastaajaryhmittäin.
 
 Riippumattoman tutkijaryhmän teettemä kysely [@riippumatontutkijaryhmä2022] maalaa hyvin samankaltaisen kuvan sodan yleiskannatuksesta. Ainestojen vertailtavuuden parantamiseksi olen kuvassa 2 visualisoinut sodan kannatusta samanlaisella kolmiluokkaisella asteikolla, kuin mitä VTsIOM käytti omissa kyselyissään. Kuten kuvasta käy ilmi, kolmiportaisella asteikolla mitattuna riippumattoman tutkijaryhmän luvut ovat käytännössä identtiset VTsIOMin lukuihin verrattuna.
 
-![Kuva 2.](../kuvat/riipp_sotatuki_3luokkaa.png)
+![Kuva 2.](../kuvat/riipp_sota_kannatus_3luokkaa.png)
 
 Tässä kohtaa on tosin syytä mainita, että riippumattoman tutkijaryhmän kyselyssä "sotaoperaation" kannatusta tiedusteltiin alunperin kolmiluokkaisen asteikon sijaan viisiluokkaisella Likert-asteikolla (tai tarkalleen 7-portaisella asteikolla, jos "En osaa sanoa" ja "Kieltäytyy vastaamasta" lasketaan), joten ko. kysely tarjoaa tietyssä mielessä tarkemman kuvan sodan kannatuksesta VTsIOMin aineistoon verrattuna. Riippumattoman tutkijaryhmän kyselyssä "sotaoperaation" kannatuksen vastausvaihtoehdot olivat
 
@@ -45,17 +45,17 @@ Tässä kohtaa on tosin syytä mainita, että riippumattoman tutkijaryhmän kyse
 
 Kuvassa 3 on nähtävissä "sotaoperaation" kokonaiskannatusluvut riippumattoman tutkijaryhmän kyselyn perusteella. Tälläkin asteikolla mitattuna Venäjän hyökkäystä tukee selvä ennemmistö vastaajista. Mielestäni huomionarvoista on kuitenkin se, että "Ehdottamasti en tue" on toiseksi suosituin vastauskategoria "Ehdottamasti tuen" jälkeen. Myös varsin suuri määrä vastaajista jättää vastaamatta kysymykseen: yhteensä 13% joko "Ei osaa sanoa" tai "Kieltäytyy vastaamasta" kysymykseen.
 
-![Kuva 3.](../kuvat/riipp_sotatuki_likert.png)
+![Kuva 3.](../kuvat/riipp_kannatus_likert.png)
 
 ## Vanhemmat ikäluokat kannattavat sotaa selvästi nuoria enemmän
 
 Aiemmin mainitussa Ylen A-studio jaksossa nostettiin esiin vanhempien ikäluokkien suurempi kannatus sodalle Venäjällä. Myös VTsIOMin ja riippumattoman tutkijaryhmän kyselyt vahvistavat tämän. Kuvissa 4 ja 5 on visualisoitu, kuinka sodan kannattatus nousee vastaajien iän myötä. Esimerkiksi VTsIOMin kyselyiden mukaan noin alle 20-vuotiaista yli puolet vastustaa sotaa, mutta jo hieman yli 25-vuotiaista valtaosa suhtautuu keskimäärin ennemmin myönteisesti kuin kielteisesti "sotaoperaatioon" (ks. punaisen ja vihreän viivan leikkauspiste).
 
-![Kuva 4. "Trendiviivalla" tarkoitetaan tässä sodan ikäryhmittäisen sodan kannatuksen ja iän välisen pisteparvikuvan (eng. *scatter plot*) pisteiden keskiarvoa kuvaavaa suoraa.](../img/vtsiom_ika_kannatus.png)
+![Kuva 4. "Trendiviivalla" tarkoitetaan tässä sodan ikäryhmittäisen sodan kannatuksen ja iän välisen pisteparvikuvan (eng. *scatter plot*) pisteiden keskiarvoa kuvaavaa suoraa.](../kuvat/vtsiom_ika_vs_kannatus.png)
 
 Riippumattoman tutkijaryhmän aineisto vahvistaa myös korkeamman iän olevan yhteydessä korkeampaan "sotaoperaation" kannatukseen (kuva 5). Tosin tämän aineiston perusteella sotaa vastustavia vastaajia on alle 20-vuotiaissakin vain noin 40%, ja sotaa kannattavien määrä ylittää sotaa vastustavien määrän jo noin 25-vuotiaiden venäläisten kohdalla (punaisen ja vihreän viivan leikkauspiste). Huomionarvoista on toisaalta myös se, että epävarmojen vastaajien osuus on etenkin alle 30-vuotiaiden ikäisissä varsin suuri.
 
-![Kuva 5. "Trendiviivalla" tarkoitetaan tässä sodan ikäryhmittäisen sodan kannatuksen ja iän välisen pisteparvikuvan (eng. *scatter plot*) pisteiden keskiarvoa kuvaavaa suoraa.](../img/riipp_ika_kannatus.png)
+![Kuva 5. "Trendiviivalla" tarkoitetaan tässä sodan ikäryhmittäisen sodan kannatuksen ja iän välisen pisteparvikuvan (eng. *scatter plot*) pisteiden keskiarvoa kuvaavaa suoraa.](../kuvat/riipp_ika_vs_kannatus.png)
 
 ## Naiset kannattavat sotaa vähemmän kuin miehet
 
@@ -65,7 +65,7 @@ Sukupuoli näyttää myös tarkastelemieni ainestojen perusteella olevan yhteyde
 
 Myös riippumattoman tutkijaryhmän kyselyn mukaan sukupuoli vaikuttaa sodan kannatukseen vastaavalla tavalla (kuva 7). Esimerkiksi alle 18-vuotiasta naisista keskimäärin yli 45% vastustaa sotaa, kun taas vastaavan ikäisillä miehillä vastaava luku on alle 35%. Sukupuolten väliset erot sotaan suhtautumisessa ovat näkyviä etenkin noin 35-ikävuoteen asti siten, että naisten suhtautuminen sotaa kohtaan on selvästi kielteisempää. Mielenkiintoisesti myös tämän aineiston mukaan noin 62--ikävuodesta eteenpäin miesten suhtautuminen sotaan on naisia kielteisempää.
 
-![Kuva 7.](../kuvat/riipp_ika_sukupuoli.png)
+![Kuva 7.](../kuvat/riipp_ika_sukupuoli_vs_kannatus.png)
 
 ## Television katselu lisää sodan kannatusta
 
@@ -85,7 +85,7 @@ Ymmärrän hyvin, mistä ajatus poliittisesti valveutuneimmista internetin käyt
 
 Analysoimieni kyselyaineistojen perusteella tilanne ei kuitenkaan ole läheskään näin yksiselitteinen (kuvat 10 ja 11). Esimerkiksi VTsIOMin kyselydatan perusteella 18--30-vuotiasta päivittäin Internettiä käyttävistä peräti 41% kannattaa "sotaoperaatiota", kun vastaava luku samassa ikäluokassa ei-päivittäin internettiä käyttävien osalta on 18%. Muissa ikäluokissa nettiä päivittäin käyttävät tosin suhtautuvat nettiä ei-päivittäin käyttäviä ja televisiota päivittäin katsovia kriittisemmin sotaan, mutta ero ei ole etenkään vanhempien ikä luokkien kohdalla suuri. Selvyyden vuoksi mainittakoon, että kysymys internetin käytöstä on muotoiltu VTsIOMin kyselyssä näin: "*Käytöttekö internettiä? Jos käytettä, kuinka usein?*" (Вы пользуетесь интернетом? Если да, то как часто?).
 
-![Kuva 10.](../kuvat/vtsiom_netti_vs_tuki.png) 
+![Kuva 10.](../kuvat/vtsiom_netti_vs_kannatus.png)
 
 Riippumattoman tutkijaryhmän kyselyn perusteella internetin käytön yhteys "sotaoperaation" tukeen on vielä epäselvempi (kuva 11). Ensinnäkin, erot sodan kannatuksessa internetistä tietonsa saavien ja muualta kuin internetistä tietonsa saavien välillä ovat melko pienet, etenkin nuoremmissa ikäluokissa. Lisäksi tämän aineiston perusteella "sotaoperaatiosta" netistä tietonsa saavien keskuudessa sodan kannatus on jopa suurempaa kuin muista tietolähteistä vastaavan tiedon saavilla.
 
@@ -102,11 +102,32 @@ Lisäksi B-kohdan osalta on syytä huomauttaa, että vaikka internetin käyttäj
 
 ## Alueelliset- ja koulutuserot sodan kannatuksessa
 
-Kuvailevien tilastojen valossa korkeakoulutetut ja suuremmissa kaupungeissa asuvat kannattavat keskimäärin vähemmän sotaa, kuin väkiluvultaan pienemmillä asuinalueilla asuvat joilla ei ole korkeakoulututkintoa (kuvat 12 ja 13). Tosin asuinalueen pienentyessä myös koulutustason merkitys näyttää vähenevän, ja pienemmillä paikkakunnilla asuvat korkeakoulutetut saattavat näiden kyselyiden perusteella kannattaa jopa enemmän sotaa, kuin vastaavien asuinalueiden ei-korkeakoulutetut. Etenkin riippumattoman tutkijaryhmän asuinalueen kokoluokittelu on kuitenkin niin karkea, että alueellisista eroista on vaikea tehdä tulkintoja pelkästään kuvailevien tilastojen perusteella.
+Kuvailevien tilastojen valossa korkeakoulutetut ja suuremmissa kaupungeissa asuvat kannattavat keskimäärin vähemmän sotaa, kuin väkiluvultaan pienemmillä asuinalueilla asuvat joilla ei ole korkeakoulututkintoa (kuvat 12 ja 13). Tosin asuinalueen pienentyessä myös koulutustason merkitys näyttää vähenevän, ja pienemmillä paikkakunnilla asuvat korkeakoulutetut saattavat näiden kyselyiden perusteella kannattaa jopa enemmän sotaa, kuin vastaavien asuinalueiden ei-korkeakoulutetut. Riippumattoman tutkijaryhmän kyselyn tuloksissa on tosin huomionarvoista tässä kohtaa, että korkeastikoulutettujen moskovalaisten ja pietarilaisten keskuudessa sodan vastustajia on lähes yhtä paljon kuin sen kannattajia. Saman datan mukaan korkeastikoulutetut kannattavat myös yleisesti ottaen vähemmän sotaa, vaikka erot eivät ole kovin suuria (ja alle 100,000 asukkaan paikkakunnilla korkeakoulutetut kannattavat jopa hieman enemmän sotaa).
 
-![Kuva 12.](../kuvat/vtsiom_asuinalue_ja_koulutus_vs_kannatus.png)
+Vaikka tilastollinen analyysini on tässä kohtaa melko pintapuolista ja kuvailevaa, näkisin silti, että asuinalueen koko on koulutustasoa merkittävämpi tekijä sodan kannatuksessa venäläisten keskuudessa aineiston perusteella. Tämä selittyy todennäköisesti sillä, että suuremmissa kaupungeissa -- niin Venäjällä kuin muuallakin -- on enemmän kansainvälisiä vaikutteita. Myös globalisaation myönteiset puolilla on tapana korostua nimenomaan suurkaupungeissa. Lisäksi aiemmassa tutkimuksessa pienemmillä paikkakunnilla asuvien venäläisten on havaittu olevan patrioottisempia [@mitikka2021] sekä suhtautuvan suurkaupungissa asuvia myönteisemmin asepalvelukseen [@svynarenko2016].
 
-![Kuva 13.](../kuvat/riipp_kaupunki_ja_koulutus_vs_kannatus.png)
+![Kuva 12.](../kuvat/vtsiom_asuinalue_koulutus_vs_kannatus.png)
 
+![Kuva 13.](../kuvat/riipp_kaupunki_koulutus_vs_kannatus.png)
 
+## Sodan kannatus alueittain
 
+Tarkastelin VTsIOMin ja riippumattoman tutkijaryhmän sodan kannatusdataa karttavisualisointien avulla (kuva 14 ja 15). Pelkällä sodan kannatuksen alueellisella vertailulla en kuitenkaan ainakaan itse pystynyt vetämään kovin pitkälle meneviä johtopäätöksiä, sillä esimerksiksi VTsIOMin kyselyssä raportoidaan vastaajan asuinalue ainoastaan federaatiopiirin tasolla, joka on auttamatta karkea mittari (kuva 14).
+
+![Kuva 14. "Sotaoperaation" kannatus ("Ennemmin tuen" prosentit federaatiopiireittäin)](../kuvat/vtsiom_kannatus_kartta.png)
+
+Riippumattoman tutkijaryhmän kyselyssä asuinpaikkaa on puolestaan kysytty huomattavasti tarkemmin, mutta tämänkin datan osalta on otoskoko jäi useissa kaupungeissa melko pieneksi. Lisäksi riippumattoman tutkijaryhmän kyselystä puuttui kokonaan joitakin merkittäviä kaupunkeja (esim. Kazan) ja paikkakuntien otostarkkuus vaihtelee huomattavasti -- joissain tapauksissa oli kysytty kaupunki- tai jopa kylätasolla, toisinaan vain alueellisella (ven. *oblast*) tasolla (kuva 15).
+
+![Kuva 15. "Sotaoperaation" kannatus ("Ehdottomasti tuen" ja "Ennemmin tuen" yhteenlasketut prosentit alueittain)](../kuvat/riipp_kannattus_kartta.png)
+
+Toisaalta VTsIOMin ja riippumattoman tutkijaryhmän aineistoista löytyi tässä kohtaa myös mielenkiintoisia yhtäläisyyksiä. Esimerkiksi Komin tasavallassa on molempien aineistojen mukaan suhteellisen matala sodan kannatus, mikä näkyy tummempana värityksenä sekä riippumattoman tutkijaryhmän alueellisen tason karttavisualisoinnissa, että VTsIOMin federaatiopiiritason (luoteinen federaatiopiiri) datassa.
+
+## Ketkä tuottivat kyselydatan? Voiko näihin kyselyihin luottaa?
+
+Venäläisiä kyselyaineistoja -- ja ylipäänsä kyselyaineistoja -- analysoitaessa ja tulkittaessa on hyvä tiedostaa kuka kyselystä on vastannut, sillä kyselyn tekijällä voi olla oma poliittinen agendansa. Lisäksi kyselyn suorittavalla organisaatiolla on aina tietty asema kyselyyn osallistujiin nähden. Kuten blogitekstin alussa mainitsin, VTsIOM on Venäjän valtion käytännössä omistama laitos. Tämän vuoksi erityisesti VTsIOMin lukuihin on suhtauduttava tietyllä varauksella: esimerkiksi kyseisen laitoksen nykyinen johtaja Valeri Fedorov on jo vuosia sitten sanonut täysin avoimesti, että VTsIOM ei käytännössä julkaise mitään tuloksia ilman valtapuolue Yhtenäisen Venäjän lupaa [@makeev2013]. Tämän vuoksi on syytä epäillä, että VTsIOM julkaisisi Kremlin kannalta epämieluisia kyselytuloksia. VTsIOMin rooliin ja lukujen kaunisteluun on kiinnitetty jo aiemmin huomiota, myös suomalaisessa mediassa [@nurminen2019].
+
+Toisaalta VTsIOMin lukujen oikeansuuntaisuutta ja uskottavuutta lisää se, että myös tässä blogitekstissä käytetyn riippumattoman tutkijaryhmän kyselytulokset maalaavat melko samankaltaisen kuvan sodan kannatuksesta venäläisten keskuudessa monilla osa-alueilla. Kuitenkin tarkemmalla asteikolla mitattuna sotaa ennemmin kannattavien osuus putosi jo lähemmäs 10%, ja vastaavasti kannastaan epävarmojen osuus kasvoi 10%.
+
+Löysin riippumattoman tutkijaryhmän datan alunperin riippumattoman venäjänkielisen uutissivusto Meduzan artikkelin kautta, jossa Exeterin yliopistossa työskentelevä tutkija Alexey Bessudnov analysoi VTsIOMin kyselydataa sodan kannatuksesta Venäjällä [@bessudnov2022]. Bessudnovin artikelissa oli linkki sivustolle, josta "riippumattoman tutkijaryhmän" datan sekä tähän liittyvät kyselylomakkeet, kyselyn kuvaukset yms. pystyi lataamaan. Täytyy sanoa, että suhtauduin aluksi varauksella koko kyselyyn, koska en löytänyt mistään muualta "viralliselta" sivustolta tietoa tästä kyselystä. Kysely vaikutti kuitenkin ammattimaisesti tehdyltä, ja ajattelin myös, että ehkä Venäjällä kiristyneen sensuurin ja kansalaisyhteiskunnan sorron takia kyseinen ryhmä ei halunnut tehdä virallisempaa julkaisua kyselystään. Lisäksi ajattelin, että ehkä VTsIOMin aineistoja analysoinut Bessudnov joko tiesi ketkä kyselyn olivat tuottaneet, tai ainakin hänellä oli jonkinlainen käsitys asiasta. Myöhemmin huomasin myös, että venäläinen oppositiopoliitikko Vladimir Milov oli twiitannut kyselyyn liittyen [@milov2022]. Tämäkin puhuisi osaltaan sen puolesta, että kysely on todella Kremlistä riippumattomien tutkijoiden tekemä.
+
+## Kyselyitä kritisoidaan syystä, mutta onko niille vaihtoehtoja?
