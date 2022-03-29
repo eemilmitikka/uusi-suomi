@@ -1,0 +1,112 @@
+---
+title: "Venäläisten suhtautuminen Ukrainan sotaan"
+author: "Eemil Mitikka"
+date: '2022-03-25'
+output: html_document
+csl: uusi-suomi-numeroitu.csl
+bibliography: references.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Venäjän aloitettua laajamittaisemman hyökkäyksen Ukrainaan -- sota alkoi jo vuonna 2014 -- on niin Suomessa kuin muuallakin pohdittu tavallisten venäläisten suhtautumista sotaan. Viimeksi viime viikon tiistaina 22.3.2022 Ylen A-studiossa aiheesta olivat keskustelemassa tutkija Kristiina Silvan Ulkopoliittisesta instituutista, suomenvenäläinen Oxana Kyllönen sekä MTV Uutisten Maailma & Kotimaa -toimituksen päällikö Mirja Kivimäki [@yle2022]. A-studiossa pohdittiin mm. miksi sotaa kannatetaan ja millaisia jakolinjoja sodan kannatuksella on venäläisen väestön keskuudessa.
+
+Puran tässä blogikirjoituksessani sodan kannatusta kyselytutkimusdatan ja muutamien erilaisten taustamuuttujien valossa. Ensimmäinen data on peräisin valtion omistamalta mielipidetutkimuslaitos VTsIOMilta (ven. Всероссийский центр изучения общественного мнения) ja toinen on riippumattomalta venäläiseltä tutkijaryhmältä. Tekstin lopussa esittelen aineistot tarkemmin sekä pohdin lyhyesti näiden kyselyiden ja Venäjällä tehtävien kyselytutkimusten luotettavuutta ylipäänsä.
+
+## Sodan yleiskannatus datan perusteella
+
+Sodan -- tai "erikoissotaoperaation", kuten Venäjän mediassa asiasta puhutaan -- yleiskannatus on kummankin analysoimani aineiston perusteella hyvin samansuuntainen. Venäjän valtion omistaman tutkimuslaitoksen (tästä eteenpäin: VTsIOM) 25.2.--27.2.2022 teettämien kyselyiden [@vciom2022] perusteella kaksi kolmasosaa venäläisistä tukee Venäjän hyökkäystä Ukrainaan (Kuva 1). VTsIOM kysyy kantaa "sotaoperaation" kannatukseen kolmiportaisella asteikolla, jossa vastausvaihtoehdot ovat
+
+1.  "Ennemmin tuen" (Скорее поддерживаю)
+
+2.  "Ennemmin en tue" (Скорее не поддерживаю)
+
+3.  "En osaa sanoa" (Затрудняюсь ответить)
+
+Kuvassa 1 on nähtävillä tarkat prosentit vastaajaryhmittäin.
+
+![Kuva 1.](../kuvat/vtsiom_sodan_kannatus.png)
+
+Riippumattoman tutkijaryhmän teettemä kysely [@riippumatontutkijaryhmä2022] maalaa hyvin samankaltaisen kuvan sodan yleiskannatuksesta. Ainestojen vertailtavuuden parantamiseksi olen kuvassa 2 visualisoinut sodan kannatusta samanlaisella kolmiluokkaisella asteikolla, kuin mitä VTsIOM käytti omissa kyselyissään. Kuten kuvasta käy ilmi, kolmiportaisella asteikolla mitattuna riippumattoman tutkijaryhmän luvut ovat käytännössä identtiset VTsIOMin lukuihin verrattuna.
+
+![Kuva 2.](../kuvat/riipp_sotatuki_3luokkaa.png)
+
+Tässä kohtaa on tosin syytä mainita, että riippumattoman tutkijaryhmän kyselyssä "sotaoperaation" kannatusta tiedusteltiin alunperin kolmiluokkaisen asteikon sijaan viisiluokkaisella Likert-asteikolla (tai tarkalleen 7-portaisella asteikolla, jos "En osaa sanoa" ja "Kieltäytyy vastaamasta" lasketaan), joten ko. kysely tarjoaa tietyssä mielessä tarkemman kuvan sodan kannatuksesta VTsIOMin aineistoon verrattuna. Riippumattoman tutkijaryhmän kyselyssä "sotaoperaation" kannatuksen vastausvaihtoehdot olivat
+
+1.  "Ehdottamasti tuen" (безусловно, поддерживаю)
+2.  "Ennemmin tuen" (скорее поддерживаю)
+3.  "Osittain tuen, osittain en tue" (в чем-то поддерживаю, в чем-то не поддерживаю)
+4.  "Ennemmin en tue" (скорее не поддерживаю)
+5.  "Ehdottamasti en tue" (безусловно, не поддерживаю)
+6.  "En tiedä, en osaa sanoa" (не знает, затрудняется ответить)
+7.  "Kieltäytyy vastaamasta" (Отказ от ответа)
+
+Kuvassa 3 on nähtävissä "sotaoperaation" kokonaiskannatusluvut riippumattoman tutkijaryhmän kyselyn perusteella. Tälläkin asteikolla mitattuna Venäjän hyökkäystä tukee selvä ennemmistö vastaajista. Mielestäni huomionarvoista on kuitenkin se, että "Ehdottamasti en tue" on toiseksi suosituin vastauskategoria "Ehdottamasti tuen" jälkeen. Myös varsin suuri määrä vastaajista jättää vastaamatta kysymykseen: yhteensä 13% joko "Ei osaa sanoa" tai "Kieltäytyy vastaamasta" kysymykseen.
+
+![Kuva 3.](../kuvat/riipp_sotatuki_likert.png)
+
+## Vanhemmat ikäluokat kannattavat sotaa selvästi nuoria enemmän
+
+Aiemmin mainitussa Ylen A-studio jaksossa nostettiin esiin vanhempien ikäluokkien suurempi kannatus sodalle Venäjällä. Myös VTsIOMin ja riippumattoman tutkijaryhmän kyselyt vahvistavat tämän. Kuvissa 4 ja 5 on visualisoitu, kuinka sodan kannattatus nousee vastaajien iän myötä. Esimerkiksi VTsIOMin kyselyiden mukaan noin alle 20-vuotiaista yli puolet vastustaa sotaa, mutta jo hieman yli 25-vuotiaista valtaosa suhtautuu keskimäärin ennemmin myönteisesti kuin kielteisesti "sotaoperaatioon" (ks. punaisen ja vihreän viivan leikkauspiste).
+
+![Kuva 4. "Trendiviivalla" tarkoitetaan tässä sodan ikäryhmittäisen sodan kannatuksen ja iän välisen pisteparvikuvan (eng. *scatter plot*) pisteiden keskiarvoa kuvaavaa suoraa.](../img/vtsiom_ika_kannatus.png)
+
+Riippumattoman tutkijaryhmän aineisto vahvistaa myös korkeamman iän olevan yhteydessä korkeampaan "sotaoperaation" kannatukseen (kuva 5). Tosin tämän aineiston perusteella sotaa vastustavia vastaajia on alle 20-vuotiaissakin vain noin 40%, ja sotaa kannattavien määrä ylittää sotaa vastustavien määrän jo noin 25-vuotiaiden venäläisten kohdalla (punaisen ja vihreän viivan leikkauspiste). Huomionarvoista on toisaalta myös se, että epävarmojen vastaajien osuus on etenkin alle 30-vuotiaiden ikäisissä varsin suuri.
+
+![Kuva 5. "Trendiviivalla" tarkoitetaan tässä sodan ikäryhmittäisen sodan kannatuksen ja iän välisen pisteparvikuvan (eng. *scatter plot*) pisteiden keskiarvoa kuvaavaa suoraa.](../img/riipp_ika_kannatus.png)
+
+## Naiset kannattavat sotaa vähemmän kuin miehet
+
+Sukupuoli näyttää myös tarkastelemieni ainestojen perusteella olevan yhteydessä sodan kannatukseen siten, että naiset kannattavat sotaa keskimäärin vähemmän kuin miehet. VTsIOMin kyselyiden perusteella naiset suhtautuvat miehiä kielteisemmin sotaan noin 62-vuotiaiksi asti, joista vanhemmissa ikäryhmissä miesten sodan vastustus on naisia suurempaa (kuva 6). Puolestaan etenkin noin 40--50-vuotiaat naiset vastustavat selvästi samanikäisiä miehiä voimakkaammin sotaa.
+
+![Kuva 6.](../kuvat/vtsiom_ika_sukupuoli.png)
+
+Myös riippumattoman tutkijaryhmän kyselyn mukaan sukupuoli vaikuttaa sodan kannatukseen vastaavalla tavalla (kuva 7). Esimerkiksi alle 18-vuotiasta naisista keskimäärin yli 45% vastustaa sotaa, kun taas vastaavan ikäisillä miehillä vastaava luku on alle 35%. Sukupuolten väliset erot sotaan suhtautumisessa ovat näkyviä etenkin noin 35-ikävuoteen asti siten, että naisten suhtautuminen sotaa kohtaan on selvästi kielteisempää. Mielenkiintoisesti myös tämän aineiston mukaan noin 62--ikävuodesta eteenpäin miesten suhtautuminen sotaan on naisia kielteisempää.
+
+![Kuva 7.](../kuvat/riipp_ika_sukupuoli.png)
+
+## Television katselu lisää sodan kannatusta
+
+Kuten jo edellä mainitussa Ylen A-studiossakin mainittiin, television katselu on yksi selvästi sodan kannatusta lisäävä tekijä. Sekä VTsIOMIn että riippumattoman tutkijaryhmän kyselyissä sodan kannatus on suurempaa jokaisessa ikäluokassa niiden vastaajien osalta, jotka kuluttavat enemmän televisiota (kuvat 8 ja 9). Tämä ei ole kovinkaan yllättävää, sillä televisio on keskittynyt 2000-luvun alusta lähtien Venäjällä enenevissä määrin Kremliä lähellä olevien oligarkkien hallintaan [@zygar2016; @åslund2007]. Lisäksi Kremlin talutusnuorassa olevat kanavat suoltavat propagandaa ja valeuutisia kiihtyvään tahtiin [@aro2019; @pettersson2022].
+
+![Kuva 8.](../kuvat/vtsiom_tv_vs_kannatus.png)
+
+![Kuva 9.](../kuvat/riipp_tv_vs_tuki.png)
+
+Myös television katselun osalta sekä VTsIOMin että riippumattoman tutkijaryhmän tulokset ovat hyvin samansuuntaisia: television katselu lisää sodan kannatusta molempien kyselyiden perusteella. Riippumattoman tutkijaryhmän television kulutukseen liittyvä kysymys on kuitenkin tarkempi, koska siinä kysytään suoraan "*Mistä lähteistä saatte informaatiota Venäjän sotaoperaatiosta Ukrainan alueella?*" (Из каких источников вы получаете информацию о военной операции России на территории Украины, неважно, российские они, украинские или какие-то иные?), vastausvaihtoehtoja on useita ja vastaaja saa valita useamman kuin yhden vaihtoehdon. VTsIOM puolestaan tiedustelee ainoastaan "*Katsotteko televisiota vai ette, ja jos kyllä, niin kuinka usein?*" (Вы смотрите телевизор или нет? Если смотрите, то как часто?), joka ei suoraan mittaa sodasta saatavaa informaatiota -- vastaaja voi katsoa televiosta pelkästään tietynlaisia ohjelmia (esimerkiksi luontodokumentteja, urheilua, jne.). Joka tapauksessa television kulutus näyttää olevan voimakkaasti yhteydessä sodan kannatukseen.
+
+## Internetin käytön yhteys sodan kannatukseen epäselvä
+
+Venäjää seuraavien keskuudessa tuntuu olevan melko yleistä ajatella, että internetin käyttäjien keskuudessa kriittisyys Kremliä kohtaan on huomattavasti suurempaa televisiota pääasiassa tietolähteenä käyttäviin verrattuna. Näin ollen olisi loogista ajatella, että internetin käyttäjät suhtautuisivat myös huomattavasti kriittisemmin Venäjän "sotaoperaatioon" Ukrainassa. Tämä näkemys esitettiin myös edellä mainitussa Ylen A-studiossa.
+
+Ymmärrän hyvin, mistä ajatus poliittisesti valveutuneimmista internetin käyttäjistä juontaa juurensa, sillä Kremlin sensuuriyrityksistä huolimatta internetistä on edelleen saatavilla Venäjällä paljon televisiota monipuolisemmin tietoa. Lisäksi Venäjän tunnetuin ja suosituin oppositiopolitiikko Aleksei Navalnyi tiimeineen käyttää taitavasti hyödyksi nimenomaan sosiaalisen median kanavia [@yleulkolinja2021]. Tämän ajatteluketjun looginen seuraus on, että internetin aktiivikäyttäjät suhtautuvat television katsojia todennäköisemmin kriittisesti Kremlin politiikkaan, mukaan lukien sotaan Ukrainassa.
+
+Analysoimieni kyselyaineistojen perusteella tilanne ei kuitenkaan ole läheskään näin yksiselitteinen (kuvat 10 ja 11). Esimerkiksi VTsIOMin kyselydatan perusteella 18--30-vuotiasta päivittäin Internettiä käyttävistä peräti 41% kannattaa "sotaoperaatiota", kun vastaava luku samassa ikäluokassa ei-päivittäin internettiä käyttävien osalta on 18%. Muissa ikäluokissa nettiä päivittäin käyttävät tosin suhtautuvat nettiä ei-päivittäin käyttäviä ja televisiota päivittäin katsovia kriittisemmin sotaan, mutta ero ei ole etenkään vanhempien ikä luokkien kohdalla suuri. Selvyyden vuoksi mainittakoon, että kysymys internetin käytöstä on muotoiltu VTsIOMin kyselyssä näin: "*Käytöttekö internettiä? Jos käytettä, kuinka usein?*" (Вы пользуетесь интернетом? Если да, то как часто?).
+
+![Kuva 10.](../kuvat/vtsiom_netti_vs_tuki.png) 
+
+Riippumattoman tutkijaryhmän kyselyn perusteella internetin käytön yhteys "sotaoperaation" tukeen on vielä epäselvempi (kuva 11). Ensinnäkin, erot sodan kannatuksessa internetistä tietonsa saavien ja muualta kuin internetistä tietonsa saavien välillä ovat melko pienet, etenkin nuoremmissa ikäluokissa. Lisäksi tämän aineiston perusteella "sotaoperaatiosta" netistä tietonsa saavien keskuudessa sodan kannatus on jopa suurempaa kuin muista tietolähteistä vastaavan tiedon saavilla.
+
+![Kuva 11.](../kuvat/riipp_netti_vs_tuki.png)
+
+Internetin käytön epäselvä yhteys sodan kannatukseen Venäjällä voi tuntua hämmentävältä. On kuitenkin syytä huomauttaa, että emme voi päätellä pelkästään *internetin käytön* perusteella seuraavia asioita:
+
+A)  Millaisiin tarkoituksiin vastaaja käyttää internettiä (esim. VTsIOMin kysely)?
+B)  Miten internetin käyttäjä käsittää ja ottaa vastaan saamansa informaation (esim. riippumattoman tutkijaryhmän kysely)?
+
+Etenkin A-kohdan osalta täytyy pitää mielessä, että arvioiden mukaan yli 80% venäläisistä käyttää internettiä tänä päivänä [@roser2015], ja valtaosa internetin käyttäjistä -- venäläiset mukaan lukien -- käyttää sitä aivan muihin tarkoituksiin, kuin poliittisen informaation kuluttamiseen. Pelkistäen sanottuna suurin osa netin kulutuksesta koostuu paljon todennäköisemmin pornon, hassujen videoiden, elokuvien ja musiikin kulutuksesta sekä päivittäisistä toisten ihmisten kanssa käydyistä (usein epäpoliittisista) keskusteluista pikaviestipalveluissa, kuin poliittisten (oppositio)sisältöjen kulutuksesta.
+
+Lisäksi B-kohdan osalta on syytä huomauttaa, että vaikka internetin käyttäjä (venäläinen) kuluttaisikin poliittisia sisältöjä -- kuten riippumattoman tutkijaryhmän kyselyssä tiedusteltiin -- ei tämä tarkoita automaattisesti sitä, että saatu informaatio edustaa poliittisen opposition (tässä tapauksessa sodan vastaista) linjaa. Toisin sanoen vaikka kyselyyn vastaaja saisikin informaation sodasta nettisivuilta, voivat nämä sivut olla myös lähellä Kremlin linjaa tai edustaa jopa Kremlin linjaa militaristisempia näkemyksiä. Lisäksi kuten esimerkiksi Evgeny Morozov on huomauttanut osuvasti, että autoritaaristen maiden johtajat omaksuvat oppositioaktivistien tapaan myös usein nopeasti uusien informaatio- ja kommunikaatioteknologioiden käytön, ja pyrkivät myös itse aktiivisesti vaikuttamaan internetissä olevan informaation sisältöön ja tämän kulutukseen [@morozov2011]. Lyhyesti tiivistäen: internetin käytön osalta tulisi tarkastella *määrän* sijaan myös *laatua*, jotta voisimme hahmottaa miten se vaikuttaa poliittisiin asenteisiin --- tässä tapauksessa Ukrainan sodan hyväksyntään Venäjällä.
+
+## Alueelliset- ja koulutuserot sodan kannatuksessa
+
+Kuvailevien tilastojen valossa korkeakoulutetut ja suuremmissa kaupungeissa asuvat kannattavat keskimäärin vähemmän sotaa, kuin väkiluvultaan pienemmillä asuinalueilla asuvat joilla ei ole korkeakoulututkintoa (kuvat 12 ja 13). Tosin asuinalueen pienentyessä myös koulutustason merkitys näyttää vähenevän, ja pienemmillä paikkakunnilla asuvat korkeakoulutetut saattavat näiden kyselyiden perusteella kannattaa jopa enemmän sotaa, kuin vastaavien asuinalueiden ei-korkeakoulutetut. Etenkin riippumattoman tutkijaryhmän asuinalueen kokoluokittelu on kuitenkin niin karkea, että alueellisista eroista on vaikea tehdä tulkintoja pelkästään kuvailevien tilastojen perusteella.
+
+![Kuva 12.](../kuvat/vtsiom_asuinalue_ja_koulutus_vs_kannatus.png)
+
+![Kuva 13.](../kuvat/riipp_kaupunki_ja_koulutus_vs_kannatus.png)
+
+
+
