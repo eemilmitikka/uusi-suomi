@@ -21,6 +21,9 @@ library(survey)
 library(extrafont)
 library(magick)
 library(rnaturalearth)
+library(rvest)
+library(lubridate)
+# library(ggrepel)
 # library(countrycode)
 # library(ggthemes)
 # install.packages("sf")
@@ -1286,6 +1289,113 @@ grid::grid.raster(
     just = c("left", "bottom"), width = unit(0.5, "inches")
   )
 dev.off()
+
+```
+
+# Putinin / presidentin suosio data
+
+```{r}
+# Define and read URL
+levada_link <- "https://www.levada.ru/indikatory/odobrenie-organov-vlasti/"
+levada_page <- read_html(levada_link)
+# Import the table
+levada_table <- levada_page %>% 
+  html_nodes("table.datatable") %>% 
+  html_table() %>% 
+  .[[1]] %>% 
+  as.data.frame()
+# Name rows
+rownames(levada_table) <- c("date", "approve", "dont_approve", "no_answer")
+# Transpose the table
+levada_table <- as.data.frame(t(levada_table))
+# Make a new character string date variable
+levada_table$date2 <- as.character(levada_table$date)
+# Rename some weird looking date observations
+## for year 2000
+levada_table$date2[levada_table$date2 == "1.2"] <- "1.2000"
+levada_table$date2[levada_table$date2 == "2.2"] <- "2.2000"
+levada_table$date2[levada_table$date2 == "3.2"] <- "3.2000"
+levada_table$date2[levada_table$date2 == "4.2"] <- "4.2000"
+levada_table$date2[levada_table$date2 == "5.2"] <- "5.2000"
+levada_table$date2[levada_table$date2 == "6.2"] <- "6.2000"
+levada_table$date2[levada_table$date2 == "7.2"] <- "7.2000"
+levada_table$date2[levada_table$date2 == "8.2"] <- "8.2000"
+levada_table$date2[levada_table$date2 == "9.2"] <- "9.2000"
+levada_table$date2[levada_table$date2 == "10.2"] <- "10.2000"
+levada_table$date2[levada_table$date2 == "11.2"] <- "11.2000"
+levada_table$date2[levada_table$date2 == "12.2"] <- "12.2000"
+## For year 2010
+levada_table$date2[levada_table$date2 == "1.201"] <- "1.2010"
+levada_table$date2[levada_table$date2 == "2.201"] <- "2.2010"
+levada_table$date2[levada_table$date2 == "3.201"] <- "3.2010"
+levada_table$date2[levada_table$date2 == "4.201"] <- "4.2010"
+levada_table$date2[levada_table$date2 == "5.201"] <- "5.2010"
+levada_table$date2[levada_table$date2 == "6.201"] <- "6.2010"
+levada_table$date2[levada_table$date2 == "7.201"] <- "7.2010"
+levada_table$date2[levada_table$date2 == "8.201"] <- "8.2010"
+levada_table$date2[levada_table$date2 == "9.201"] <- "9.2010"
+levada_table$date2[levada_table$date2 == "10.201"] <- "10.2010"
+levada_table$date2[levada_table$date2 == "11.201"] <- "11.2010"
+levada_table$date2[levada_table$date2 == "12.201"] <- "12.2010"
+## For year 2020
+levada_table$date2[levada_table$date2 == "1.202"] <- "1.2020"
+levada_table$date2[levada_table$date2 == "2.202"] <- "2.2020"
+levada_table$date2[levada_table$date2 == "3.202"] <- "3.2020"
+levada_table$date2[levada_table$date2 == "4.202"] <- "4.2020"
+levada_table$date2[levada_table$date2 == "5.202"] <- "5.2020"
+levada_table$date2[levada_table$date2 == "6.202"] <- "6.2020"
+levada_table$date2[levada_table$date2 == "7.202"] <- "7.2020"
+levada_table$date2[levada_table$date2 == "8.202"] <- "8.2020"
+levada_table$date2[levada_table$date2 == "9.202"] <- "9.2020"
+levada_table$date2[levada_table$date2 == "10.202"] <- "10.2020"
+levada_table$date2[levada_table$date2 == "11.202"] <- "11.2020"
+levada_table$date2[levada_table$date2 == "12.202"] <- "12.2020"
+# Create a new POSIXct date variable denoting month and year
+levada_table_2 <- levada_table %>% 
+  mutate(date_parsed2= parse_date_time(levada_table$date2, "%m.%Y"))
+# Create a new table without unnecessary variables
+levada_table_3 <- levada_table_2 %>% 
+  mutate(approve_prop = approve*0.01, # convert to proportions i.e. percentages
+         dont_approve_prop = dont_approve*0.01, # convert to proportions i.e. percentages
+         no_answer_prop = no_answer*0.01) %>% # convert to proportions i.e. percentages
+  select(date_parsed2:no_answer_prop) %>% # select only needed variables
+  rename(date = date_parsed2) # rename final date variable
+# Add percentages column to the dataset
+levada_table_3 <- levada_table_3 %>% 
+  dplyr::mutate(approve_perc = scales::percent(approve_prop, accuracy = 1, trim = F),
+                dont_approve_perc = scales::percent(dont_approve_prop, accuracy = 1, trim = F),
+                no_answer_perc = scales::percent(no_answer_prop, accuracy = 1, trim = F))
+
+
+# Tuo VTsIOMin presidentin hyväksyntä data
+vtsiom <- here::here("data/vtsiom_state_institutions.xlsx") %>% 
+  readxl::read_excel(sheet = 3)
+
+vtsiom$vtsiom_prop <- vtsiom$rating*0.01
+levada_table_3$levada_prop <- levada_table_3$approve_prop
+
+# Yhdistä Levadan ja VTsOMin rankingit
+suosio_levada_vtsiom <- merge(vtsiom, levada_table_3, by = "date", all = TRUE)
+
+# Visualisoi presidentin suosio data
+vtsiom_levada_rankingit <- ggplot(suosio_levada_vtsiom, aes(x = date)) +
+  geom_line(data = suosio_levada_vtsiom[!is.na(suosio_levada_vtsiom$levada_prop),], aes(y = levada_prop, color = "Levada-keskus")) +
+  geom_line(data = suosio_levada_vtsiom[!is.na(suosio_levada_vtsiom$vtsiom_prop),], aes(y = vtsiom_prop, color = "VTsIOM")) +
+  ggplot2::labs(x = "Vuosi",
+       title = 'Hyväksyn Vladimir Putinin toiminnan Venäjän presidenttinä/pääministerinä ("Kyllä"-%)',
+       y = NULL) +
+  scale_y_continuous(labels = scales::label_percent(accuracy = 1)) +
+  # theme(panel.background = element_rect(fill = "gray96")) +
+  scale_color_manual(name = "Datan lähde",
+                     values = c("Levada-keskus" = "black", "VTsIOM" = vihrea)) + 
+  theme_meduza()
+
+# Tallenna presidentin suosio ranking kuva
+png(paste(kuvat, "levada_vtsiom_rankingit.png", sep = ""), width = 1068, height = 841, res = 85)
+vtsiom_levada_rankingit
+ai_logo()
+dev.off()
+
 
 ```
 
