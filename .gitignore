@@ -9,3 +9,6 @@
 *.csv
 *.sav
 *.xlsx
+
+# HTML tiedostot
+*.html

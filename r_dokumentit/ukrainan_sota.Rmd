@@ -108,6 +108,24 @@ caption_riipp <- function() {
   )
 }
 
+# Levada ja VTsIOM rankingit
+caption_ranking <- function() {
+  labs(
+    caption = "Lähde: Levada-keskus (elokuu 1999–maaliskuu 2022), VTsIOM (15.1.2006–20.3.2022)
+    Kuva: Eemil Mitikka"
+  )
+}
+
+# Russian Field
+caption_rf <- function() {
+  labs(
+    caption = "Lähde: Russian Field (26–28.2.2022)
+    N=2000
+    Kuva: Eemil Mitikka"
+  )
+}
+
+
 # Määrittele värit graafeihin
 harmaa <- "#9E9E9E" # "En osaa sanoa"
 punainen <- "#D37463" # "Ennemmin en tue"
@@ -1388,7 +1406,8 @@ vtsiom_levada_rankingit <- ggplot(suosio_levada_vtsiom, aes(x = date)) +
   # theme(panel.background = element_rect(fill = "gray96")) +
   scale_color_manual(name = "Datan lähde",
                      values = c("Levada-keskus" = "black", "VTsIOM" = vihrea)) + 
-  theme_meduza()
+  theme_meduza() +
+  caption_ranking()
 
 # Tallenna presidentin suosio ranking kuva
 png(paste(kuvat, "levada_vtsiom_rankingit.png", sep = ""), width = 1068, height = 841, res = 85)
@@ -1398,4 +1417,65 @@ dev.off()
 
 
 ```
+
+# Russian Field
+
+```{r}
+# Tuo data
+rf <- here::here('data/“RF_26-28.02.2022”.sav') %>% 
+  read_spss() %>% 
+  janitor::clean_names()
+
+# Määritä paino
+rf_design <- svydesign(ids =~1,
+                       data = rf,
+                       weights = rf$vtpv)
+
+# Laske yleiskannatuksen prosenttijakauma
+rf_table <- svytable(~q11, design = rf_design) %>% 
+  as.data.frame() %>% 
+  mutate(prosentti = Freq / sum(Freq))
+
+# rf %>% 
+#   select(q11) %>% 
+#   look_for()
+# 
+rf %>%
+  select(q11) %>%
+  rdhs::get_variable_labels()
+# 
+# rf %>% 
+#   count()
+
+# Visualisoi Russian Field kannatusdata
+rf_kannatus <- rf_table %>% 
+  group_by(q11) %>% 
+  ggplot(aes(x = q11, y = prosentti, fill = q11)) +
+  geom_col() +
+  scale_fill_manual(values = c(riipp_vihrea, riipp_vaalean_vihrea, riipp_vaalean_punainen, riipp_punainen, keltainen)) +
+  scale_x_discrete(labels = c("Ehdottomasti tuen", 
+                              "Ennemmin tuen",
+                              "Ennemmin en tue",
+                              "Ehdottomasti en tue",
+                              "En osaa sanoa")) +
+  prosentit() +
+  theme_meduza() +
+    scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+  labs(title = 'Russian Field: tuetteko Venäjän sotatoimia Ukrainan alueella?',
+       fill = '"Sotaoperaation"\ntukeminen',
+       y = NULL,
+       x = NULL) +
+  guides(fill = FALSE) +
+  caption_rf()
+
+# Tallenna kuva
+png(paste(kuvat, "rf_kannatus.png", sep = ""), width = 1068, height = 841, res = 85)
+rf_kannatus
+ai_logo()
+dev.off()
+
+tolower("ПОДДЕРЖИВАЕТЕ ЛИ ВЫ ВОЕННЫЕ ДЕЙСТВИЯ СО СТОРОНЫ РОССИИ НА ТЕРРИТОРИИ УКРАИНЫ?")
+
+```
+
 
