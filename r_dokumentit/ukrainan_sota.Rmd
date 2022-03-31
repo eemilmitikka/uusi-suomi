@@ -1440,9 +1440,9 @@ rf_table <- svytable(~q11, design = rf_design) %>%
 #   select(q11) %>% 
 #   look_for()
 # 
-rf %>%
-  select(q11) %>%
-  rdhs::get_variable_labels()
+# rf %>%
+#   select(q11) %>%
+#   rdhs::get_variable_labels()
 # 
 # rf %>% 
 #   count()
@@ -1462,7 +1462,6 @@ rf_kannatus <- rf_table %>%
   theme_meduza() +
     scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
   labs(title = 'Russian Field: tuetteko Venäjän sotatoimia Ukrainan alueella?',
-       fill = '"Sotaoperaation"\ntukeminen',
        y = NULL,
        x = NULL) +
   guides(fill = FALSE) +
@@ -1474,7 +1473,6 @@ rf_kannatus
 ai_logo()
 dev.off()
 
-tolower("ПОДДЕРЖИВАЕТЕ ЛИ ВЫ ВОЕННЫЕ ДЕЙСТВИЯ СО СТОРОНЫ РОССИИ НА ТЕРРИТОРИИ УКРАИНЫ?")
 
 ```
 

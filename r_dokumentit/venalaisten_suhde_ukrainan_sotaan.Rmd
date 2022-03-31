@@ -1,5 +1,5 @@
 ---
-title: "Voiko kyselyihin venäläisten suhtautuminen Ukrainan sotaan luottaa?"
+title: "Mitä kyselyt kertovat venäläisten suhtautumisesta Ukrainan sotaan?"
 author: "Eemil Mitikka"
 date: '2022-03-25'
 output: html_document
@@ -29,7 +29,7 @@ Kuvassa 1 on nähtävillä tarkat prosentit vastaajaryhmittäin.
 
 ![Kuva 1.](../kuvat/vtsiom_sodan_kannatus.png)
 
-Riippumattoman tutkijaryhmän teettemä kysely [@riippumatontutkijaryhmä2022] maalaa hyvin samankaltaisen kuvan sodan yleiskannatuksesta. Ainestojen vertailtavuuden parantamiseksi olen kuvassa 2 visualisoinut sodan kannatusta samanlaisella kolmiluokkaisella asteikolla, kuin mitä VTsIOM käytti omissa kyselyissään. Kuten kuvasta käy ilmi, kolmiportaisella asteikolla mitattuna riippumattoman tutkijaryhmän luvut ovat käytännössä identtiset VTsIOMin lukuihin verrattuna.
+Riippumattoman tutkijaryhmän teettemä kysely [@riippumatontutkijaryhmä2022] maalaa hyvin samankaltaisen kuvan sodan yleiskannatuksesta. Ainestojen vertailtavuuden parantamiseksi olen kuvassa 2 visualisoinut sodan kannatusta samanlaisella kolmiluokkaisella asteikolla, kuin mitä VTsIOM käytti omissa kyselyissään. Kuten kuvasta käy ilmi, kolmiportaisella asteikolla mitattuna riippumattoman tutkijaryhmän luvut ovat käytännössä hyvin samansuuntaiset VTsIOMin lukuihin verrattuna.
 
 ![Kuva 2.](../kuvat/riipp_sota_kannatus_3luokkaa.png)
 
@@ -178,18 +178,26 @@ Venäläisiä kyselyaineistoja -- ja ylipäänsä kyselyaineistoja -- analysoita
 
 #### VTsIOM
 
-Kuten blogitekstin alussa mainitsin, VTsIOM (ven. Всероссийский центр изучения общественного мнения) on Venäjän valtion käytännössä omistama laitos. Tämän vuoksi erityisesti VTsIOMin lukuihin on suhtauduttava tietyllä varauksella: esimerkiksi kyseisen laitoksen nykyinen johtaja Valeri Fedorov on jo vuosia sitten sanonut täysin avoimesti, että VTsIOM ei käytännössä julkaise mitään tuloksia ilman valtapuolue Yhtenäisen Venäjän lupaa [@makeev2013]. Tämän vuoksi on syytä epäillä, että VTsIOM julkaisisi Kremlin kannalta epämieluisia kyselytuloksia. VTsIOMin rooliin ja lukujen kaunisteluun on kiinnitetty jo aiemmin huomiota, myös suomalaisessa mediassa [@nurminen2019].
+Kuten blogitekstin alussa mainitsin, VTsIOM (ven. Всероссийский центр изучения общественного мнения) on Venäjän valtion käytännössä omistama laitos. VTsIOM perustettiin perustettiin Neuvostoliiton loppuaikoina vuonna 1987, ja sitä pidettiin pitkään Venäjän luotettavimpana kyselytutkimuslaitoksena. Vuonna 2003 VTsIOM siirtyi kuitenkin Kremlin alaisuuteen, jonka seurauksena silloinen laitoksen johtaja Juri Levada ja suurin osa laitoksen silloisista työntekijöistä jätti VTsIOMin ja perusti valtiosta riippumattoman -- ja lännestä rahoitetun sekä myöhemmin ulkomaiseksi agentiksi leimatun -- Levada-keskuksen [@rose2011]. Juri Levadan tutkijaryhmä korvattiin Putinin sisäpiiriin kuuluvan Vladislav Surkovin valitsemilla tutkijoilla [@zygar2016a]. VTsIOMin johtajana on toiminut vuodesta 2003 lähtien Valeri Fedorov [@vciom2022a].
 
-VTsIOM perustettiin perustettiin Neuvostoliiton loppuaikoina vuonna 1987, ja sitä pidettiin pitkään Venäjän luotettavimpana kyselytutkimuslaitoksena. Vuonna 2003 VTsIOM siirtyi kuitenkin Kremlin alaisuuteen, jonka seurauksena silloinen laitoksen johtaja Juri Levada ja suurin osa laitoksen silloisista työntekijöistä jätti VTsIOMin ja perusti valtiosta riippumattoman -- ja lännestä rahoitetun sekä myöhemmin ulkomaiseksi agentiksi leimatun -- Levada-keskuksen. Levadan tutkijaryhmä korvattiin Putinin sisäpiiriin kuuluvan Vladislav Surkovin valitsemilla sosiologeilla [@zygar2016a].
+Tämän vuoksi erityisesti VTsIOMin lukuihin on suhtauduttava tietyllä varauksella: esimerkiksi VTsIOMin johtaja Valeri Fedorov on jo vuosia sitten sanonut täysin avoimesti, että VTsIOM ei käytännössä julkaise mitään tuloksia ilman valtapuolue Yhtenäisen Venäjän lupaa [@makeev2013]. Tämän vuoksi on syytä epäillä, että VTsIOM julkaisisi Kremlin kannalta epämieluisia kyselytuloksia. VTsIOMin rooliin ja lukujen kaunisteluun on kiinnitetty jo aiemmin huomiota, myös suomalaisessa mediassa [@nurminen2019].
 
 Toisaalta VTsIOMin lukujen oikeansuuntaisuutta ja uskottavuutta lisää se, että myös tässä blogitekstissä käytetyn riippumattoman tutkijaryhmän kyselytulokset maalaavat melko samankaltaisen kuvan sodan kannatuksesta venäläisten keskuudessa monilla osa-alueilla. Kuitenkin tarkemmalla asteikolla mitattuna sotaa ennemmin kannattavien osuus putosi jo lähemmäs 10%, ja vastaavasti kannastaan epävarmojen osuus kasvoi 10%.
 
 #### Riippumaton tutkijaryhmä
 
-Löysin riippumattoman tutkijaryhmän datan alunperin riippumattoman venäjänkielisen uutissivusto Meduzan artikkelin kautta, jossa Exeterin yliopistossa työskentelevä tutkija Alexey Bessudnov analysoi VTsIOMin kyselydataa sodan kannatuksesta Venäjällä [@bessudnov2022]. Bessudnovin artikkelissa oli linkki sivustolle, josta "riippumattoman tutkijaryhmän" datan sekä tähän liittyvät kyselylomakkeet, kyselyn kuvaukset yms. pystyi lataamaan [^2]. Suhtauduin aluksi varauksella koko kyselyyn, koska en löytänyt mistään muualta "viralliselta" sivustolta tietoa tästä kyselystä. Kysely vaikutti kuitenkin ammattimaisesti tehdyltä, ja ajattelin myös, että ehkä Venäjällä kiristyneen sotasensuurin ja kansalaisyhteiskunnan sorron takia kyseinen ryhmä ei halunnut tehdä virallisempaa julkaisua kyselystään. Ajattelin myös, että VTsIOMin aineistoja analysoinut Bessudnov todennäköisesti joko tiesi ketkä kyselyn olivat tuottaneet, tai ainakin hänellä oli jonkinlainen käsitys asiasta. Myöhemmin huomasin myös, että venäläinen oppositiopoliitikko Vladimir Milov oli twiitannut kyselyyn liittyen [@milov2022]. Tämäkin puhuisi osaltaan sen puolesta, että kysely on todella Kremlistä riippumattomien tutkijoiden tekemä.
+Löysin riippumattoman tutkijaryhmän datan alunperin riippumattoman venäjänkielisen uutissivusto Meduzan artikkelin kautta, jossa Exeterin yliopistossa työskentelevä tutkija Alexey Bessudnov analysoi VTsIOMin kyselydataa sodan kannatuksesta Venäjällä [@bessudnov2022]. Bessudnovin artikkelissa oli linkki sivustolle, josta "riippumattoman tutkijaryhmän" datan sekä tähän liittyvät kyselylomakkeet, kyselyn kuvaukset yms. pystyi lataamaan[^2]. Suhtauduin aluksi varauksella koko kyselyyn, koska en löytänyt mistään muualta "viralliselta" sivustolta tietoa tästä kyselystä. Kysely vaikutti kuitenkin ammattimaisesti tehdyltä, ja ajattelin myös, että ehkä Venäjällä kiristyneen sotasensuurin ja kansalaisyhteiskunnan sorron takia kyseinen ryhmä ei halunnut tehdä virallisempaa julkaisua kyselystään. Luulen myös, että VTsIOMin aineistoja aiemmin analysoinut Bessudnov todennäköisesti joko tiesi ketkä kyselyn olivat tuottaneet, tai ainakin hänellä oli jonkinlainen käsitys asiasta. Myöhemmin huomasin myös, että venäläinen oppositiopoliitikko Vladimir Milov oli twiitannut kyselyyn liittyen [@milov2022]. Edellä mainitun takia voidaan mielestäni olettaa, että kysely on todella Kremlistä riippumattomien tutkijoiden tekemä. Lisäksi muiden valtiosta riippumattomien kyselyiden tulokset ovat samansuuntaisia tässä analysoidun "riippumattoman tutkijaryhmän" aineistojen kanssa [@russianfield2022; @dorussianswantwar2022].
 
 [^2]: Riippumaton tutkijryhmä kuvaili kyselyn tekijöitä näin: "Tutkimus on tehty riippumattoman sosiologi- ja IT-asiantuntijaryhmän aloitteesta. Projekti toi yhteen riippumattomia tutkijoita ja tutkimuslaitoksia eri Venäjän alueilta - Moskovasta, Samarasta (FSI, ven. Фондасоциальных исследований), Voronežista (Kvalitas, venäläinen yksityinen mielipidetutkimuslaitos), Tšeboksarysta (Maksima, venäläinen yksityinen mielipidetutkimuslaitos), Kazanista ja muualta" (Исследование проведено по инициативе группы независимых социологов и IT-специалистов. Проект объединил независимых исследователей и исследовательских компаний в различных регионах -- Москвы, Самары (ФСИ), Воронежа (Квалитас), Чебоксар (Максима), Казани и других).
 
+#### Replikaatioaineistot ja kyselydatat
+
+Blogitekstin analyysien ja visualoisointien replikaatiokoodit löytyvät [GitHub-sivuiltani](https://github.com/eemilmitikka/uusi-suomi/blob/main/r_dokumentit/ukrainan_sota.Rmd).
+
+Tässä käytetty VTsIOMin kyselyaineisto on ladattavissa [VTsIOMin kotisivuilta](https://wciom.ru/analytical-reviews/analiticheskii-obzor/specialnaja-voennaja-operacija-v-ukraine-otnoshenie-i-celi) (välilehti "Материалы" ja latauspainike "Массив данных" tekstin oikealla puolella).
+
+Riippumattoman tutkijaryhmän data oli aiemmin saatavilla osoitteessa <https://dropmefiles.net/en/7GPMmsKA> , mutta sivu ei aunennut ainakaan itselleni enää. Voinen lähettää datan kuitenkin järkevää pyyntöä vastaan [eemil.mitikka\@helsinki.fi](mailto:eemil.mitikka@helsinki.fi).
+
 ### Lähteet
 
-Teksti olisi ollut mahdollista lähteistää tiukemminkin, mutta halusin pitää viitteiden määrän kohtuullisena. Jos lähteestä oli tarjolla hyvä suomen- tai englanninkielinen versio (esim. Mihail Zygarin kirja), käytin
+Jos lähteestä oli tarjolla hyvä suomen- tai englanninkielinen versio, käytin tätä alkuperäisen venäjänkielisen lähteen sijaan.
