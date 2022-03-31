@@ -12,3 +12,7 @@
 
 # HTML tiedostot
 *.html
+
+# Word tiedostot
+*.doc
+*.docx
