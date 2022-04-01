@@ -176,6 +176,8 @@ Tämä ei tarkoita sitä, että venäläisiin kyselytutkimuksiin voi suhtautua k
 
 Venäläisiä kyselyaineistoja -- ja ylipäänsä kyselyaineistoja -- analysoitaessa ja tulkittaessa on hyvä tiedostaa kuka kyselystä on vastannut, sillä kyselyn tekijällä voi olla oma poliittinen agendansa. Lisäksi kyselyn suorittavalla organisaatiolla on aina tietty asema kyselyyn osallistujiin nähden. Tämän vuoksi esittelen lyhyesti lopuksi datan tuottaneet tahot.
 
+Molemmat tässä käytetyt kyselytutkimusaineistot kerättiin puhelimitse satunnaisella ositetulla otannalla (eng. *stratified sampling*).
+
 #### VTsIOM
 
 Kuten blogitekstin alussa mainitsin, VTsIOM (ven. Всероссийский центр изучения общественного мнения) on Venäjän valtion käytännössä omistama laitos. VTsIOM perustettiin Neuvostoliiton loppuaikoina vuonna 1987, ja sitä pidettiin pitkään Venäjän luotettavimpana kyselytutkimuslaitoksena. Vuonna 2003 VTsIOM siirtyi kuitenkin Kremlin alaisuuteen, jonka seurauksena silloinen laitoksen johtaja Juri Levada ja suurin osa laitoksen silloisista työntekijöistä jätti VTsIOMin ja perusti valtiosta riippumattoman -- ja lännestä rahoitetun sekä myöhemmin ulkomaiseksi agentiksi leimatun -- Levada-keskuksen [@rose2011]. Juri Levadan tutkijaryhmä korvattiin Putinin sisäpiiriin kuuluvan Vladislav Surkovin valitsemilla tutkijoilla [@zygar2016a]. VTsIOMin johtajana on toiminut vuodesta 2003 lähtien Valeri Fedorov [@vciom2022a].
